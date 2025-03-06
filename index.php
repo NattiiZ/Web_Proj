@@ -11,7 +11,7 @@
 <header>
     <nav>
         <a href="index.php">หน้าแรก</a>
-        <a href="movies.php">โปรแกรมฉายหนัง</a>
+        <a href="showtime.php">โปรแกรมฉายหนัง</a>
         <a href="register.php">ลงทะเบียน</a> |
         <a href="login.php">เข้าสู่ระบบ</a>
     </nav>
