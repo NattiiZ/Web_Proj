@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Prompt', sans-serif;
+    background-color: #1c1c1c; /* พื้นหลังสีดำ */
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #000000; /* สีดำ */
+    padding: 15px 0;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Banner */
+.banner {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.banner img {
+    width: 100%;
+    max-width: 600px; /* ปรับให้ไม่กว้างเกิน */
+    height: auto;
+    display: block;
+    margin: auto;
+    border-radius: 8px; /* ทำให้ขอบมนเล็กน้อย */
+}
+
+
+/* Content */
+.container {
+    background-color: #888888; /* พื้นหลังเทา */
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+h1 {
+    color: #333;
+}
