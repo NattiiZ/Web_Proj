@@ -31,6 +31,7 @@
         }
         .info {
             flex: 1;
+            
         }
         .actors, .director {
             margin-top: 20px;
@@ -67,7 +68,7 @@
     </div>
     <div class="movie-detail">
         <div class="poster">
-            <img src="comper.jpg" alt="โปสเตอร์หนัง">
+            <img src="photo/comper.jpg" alt="โปสเตอร์หนัง">
         </div>
         <div class="info">
             <h1>Companion | คอมแพเนียน</h1>
@@ -79,7 +80,7 @@
             <div class="director">
                 <h3>ผู้กำกับ</h3>
                 <div class="person">
-                    <img src="" alt="ผู้กำกับ">
+                    <img src="photo/deiCom1.jpg" alt="ผู้กำกับ">
                     <div class="name">ดรูว์ ฮานค็อก</div>
                 </div>
             </div>
