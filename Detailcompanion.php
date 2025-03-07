@@ -74,7 +74,7 @@
             <h1>Companion | คอมแพเนียน</h1>
             <p><strong>ประเภท:</strong> สยองขวัญ , วิทยาศาสตร์ , ระทึกขวัญ</p>
             <p><strong>ความยาว:</strong> 97 นาที</p>
-            <button>ดูรอบฉาย</button>
+            
             
             
             <div class="director">

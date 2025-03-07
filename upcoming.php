@@ -42,7 +42,7 @@
             <div class="swiper-wrapper"> 
                 <div class="swiper-slide"><a href="Detailnovocaine.php"><img src="photo/novocaine.jpg" alt="Banner 1"></a></div>
                 <div class="swiper-slide"><a href="Detailnaja2.php"><img src="photo/naja2.jpg" alt="Banner 2"></a></div>
-                <div class="swiper-slide"><a href="Detailsnowwhite.php"><img src="photo/snowwhite.jpg"Banner 3"></a></div>
+                <div class="swiper-slide"><a href="Detailsnowwhite.php"><img src="photo/snowwhite.jpg" alt="Banner 3"></a></div>
              </div> 
             <!-- ปุ่มเลื่อน -->
             <div class="swiper-button-next"></div>
@@ -56,28 +56,28 @@
         <h1>โปรแกรมหน้า</h1>
         <div class="movies">
             <div class='movie'>
-                <img src='photo/novocaine.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
+                <a href="Detailnovocaine.php"><img src="photo/novocaine.jpg" alt='ภาพยนตร์เรื่องที่ 1'>
                 <p><a href='Detailnovocaine.php'>Novocaine มิสเตอร์โคตรคนทรหด</a></p>
                 <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/naja2.jpg' alt='ภาพยนตร์เรื่องที่ 2'>
+                <a href="Detailnaja2.php"><img src="photo/naja2.jpg" alt='ภาพยนตร์เรื่องที่ 2'>
                 <p><a href='Detailnaja2.php'>นาจา 2</a></p>
                 <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/mulunaku.jpg' alt='ภาพยนตร์เรื่องที่ 3'>
+                <a href="Detailmulunaku.php"><img src="photo/mulunaku.jpg" alt='ภาพยนตร์เรื่องที่ 3'>
                 <p><a href='Detailmulunaku.php'>มูลู หน้าครู</a></p>
                 <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class="movie">
-                <img src="photo/snowwhite.jpg" alt="ภาพยนตร์เรื่องที่ 4">
+                <a href="Detailsnowwhite.php"><img src="photo/snowwhite.jpg" alt="ภาพยนตร์เรื่องที่ 4">
                 <p><a href="Detailsnowwhite.php">snowwhite | สโนว์ไวท์ </a></p>
                 <p class="showtime">วันที่เข้าฉาย: 20 มีนาคม 2025</p>
                 <p class="ticket">
@@ -85,14 +85,14 @@
 
             </div>
             <div class="movie">
-                <img src="photo/ppbb.jpg" alt="ภาพยนตร์เรื่องที่ 5">
+                <a href="Detailbbpp.php"><img src="photo/ppbb.jpg" alt="ภาพยนตร์เรื่องที่ 5">
                 <p><a href="Detailbbpp.php">ซองแดงแต่งผี</a></p>
                 <p class="showtime">วันที่เข้าฉาย: 20 มีนาคม 2025</p>
                 <p class="ticket"> 
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class = "movie">
-                <img src="photo/sparm.jpg" alt="ภาพยนตร์เรื่องที่ 6">
+                <a href="Detailsparm.php"><img src="photo/sparm.jpg" alt="ภาพยนตร์เรื่องที่ 6">
                 <p><a href="Detailsparm.php">แก๊งสเปิร์มผงาด</a></p>
                 <p class="showtime">วันที่เข้าฉาย: 27 มีนาคม 2025</p>
                 <p class="ticket">
