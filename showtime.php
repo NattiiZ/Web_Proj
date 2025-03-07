@@ -17,6 +17,7 @@
     <nav>
         <a href="index.php">หน้าแรก</a>
         <a href="showtime.php">โปรแกรมฉายหนัง</a>
+        <a href="showtime.php">โปรแกรมหน้า</a>
         <a href="register.php">ลงทะเบียน</a> |
         <a href="login.php">เข้าสู่ระบบ</a>
     </nav>
@@ -45,7 +46,7 @@
         <div class="movies">
             <div class='movie'>
                 <img src='photo/comper.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
-                <p><a href='Detailcompanion.php'>Companion | คอมแพเนียน</a></p>
+                <p><a href='Detailcompanion.php'>Companion | คอมแพเนียน </a></p>
                 <p class='showtime'>ฉายเวลา: 12:30, 15:00, 18:00</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>

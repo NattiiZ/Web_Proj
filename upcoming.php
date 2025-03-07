@@ -47,21 +47,21 @@
             <div class='movie'>
                 <img src='photo/novocaine.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
                 <p><a href='Detailnovaocaine.php'>Novocaine มิสเตอร์โคตรคนทรหด</a></p>
-                <p class='showtime'>กำหนดฉาย 13 มีนาคม 2025</p>
+                <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/Dacknun.jpg' alt='ภาพยนตร์เรื่องที่ 2'>
-                <p><a href='Detaildarknun.php'>Dark Nuns</a></p>
-                <p class='showtime'>ฉายเวลา: 13:00, 16:00, 19:30</p>
+                <img src='photo/naja2.jpg' alt='ภาพยนตร์เรื่องที่ 2'>
+                <p><a href='Detailnaja2.php'>นาจา 2</a></p>
+                <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/substance.jpg' alt='ภาพยนตร์เรื่องที่ 3'>
-                <p><a href='Detailsubstance.php'>The Substance | สวยสลับร่าง</a></p>
-                <p class='showtime'>ฉายเวลา: 14:15, 17:45, 21:00</p>
+                <img src='photo/mulunaku.jpg' alt='ภาพยนตร์เรื่องที่ 3'>
+                <p><a href='Detailmulunaku.php'>มูลู หน้าครู</a></p>
+                <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
