@@ -13,11 +13,11 @@
     
 </head>
 
+
 <header>
     <nav>
         <a href="index.php">หน้าแรก</a>
         <a href="showtime.php">โปรแกรมฉายหนัง</a>
-        <a href="showtime.php">โปรแกรมหน้า</a>
         <a href="register.php">ลงทะเบียน</a> |
         <a href="login.php">เข้าสู่ระบบ</a>
     </nav>
@@ -45,25 +45,33 @@
         <h1>โปรแกรมหนัง</h1>
         <div class="movies">
             <div class='movie'>
-                <img src='photo/comper.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
-                <p><a href='Detailcompanion.php'>Companion | คอมแพเนียน </a></p>
-                <p class='showtime'>ฉายเวลา: 12:30, 15:00, 18:00</p>
+                <img src='photo/novocaine.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
+                <p><a href='Detailnovocaine.php'>Novocaine มิสเตอร์โคตรคนทรหด</a></p>
+                <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/Dacknun.jpg' alt='ภาพยนตร์เรื่องที่ 2'>
-                <p><a href='Detaildarknun.php'>Dark Nuns</a></p>
-                <p class='showtime'>ฉายเวลา: 13:00, 16:00, 19:30</p>
+                <img src='photo/naja2.jpg' alt='ภาพยนตร์เรื่องที่ 2'>
+                <p><a href='Detailnaja2.php'>นาจา 2</a></p>
+                <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/substance.jpg' alt='ภาพยนตร์เรื่องที่ 3'>
-                <p><a href='Detailsubstance.php'>The Substance | สวยสลับร่าง</a></p>
-                <p class='showtime'>ฉายเวลา: 14:15, 17:45, 21:00</p>
+                <img src='photo/mulunaku.jpg' alt='ภาพยนตร์เรื่องที่ 3'>
+                <p><a href='Detailmulunaku.php'>มูลู หน้าครู</a></p>
+                <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
+            </div>
+            <div class="movie">
+                <img src="photo/snowwhite.jpg" alt="ภาพยนตร์เรื่องที่ 4">
+                <p><a href="Detailsnowwhite.php">snowwhite | สโนว์ไวท์ </a></p>
+                <p class="showtime">วันที่เข้าฉาย: 20 มีนาคม 2025</p>
+                <p class="ticket">
+                <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
+
             </div>
         </div>
     </div>
@@ -87,6 +95,9 @@
             }
         });
     </script>
+
+
+
 
 </body>
 </html>
