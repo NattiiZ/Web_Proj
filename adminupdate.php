@@ -61,11 +61,11 @@ header {
     
     <div class="correct">
 
-        <a href="#">แก้ไขหนัง</a>
-        <a href="#">แก้ไขหมวดหมู่</a>
-        <a href="#">แก้ไขรอบ</a>
-        <a href="#">แก้ไขuser</a>
-        <a href="#">แก้ไขorder</a>
+        <a href="update.php">แก้ไขหนัง</a>
+        <a href="editcategory.php">แก้ไขหมวดหมู่</a>
+        <a href="editshowtime.php">แก้ไขรอบ</a>
+        <a href="edituser.php">แก้ไขuser</a>
+        <a href="editticket.php">แก้ไขorder</a>
     </div>
 
 
