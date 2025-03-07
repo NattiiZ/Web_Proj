@@ -32,9 +32,6 @@
         <a href="login.php">เข้าสู่ระบบ</a>
     </div>
 </nav>
-</header>
-
-<body>
 
     <!-- แบนเนอร์สไลด์ -->
     <div class="banner">
@@ -51,6 +48,7 @@
             
         </div>
     </div>
+    </header>
 
     <div class="content">
         <h1>โปรแกรมหน้า</h1>
