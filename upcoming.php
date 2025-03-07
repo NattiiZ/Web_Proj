@@ -15,13 +15,22 @@
 
 
 <header>
-    <nav>
+<nav>
+    <a href="index.php">
+    <img src="photo/Malai_Cineplex.jpg" alt="logo">
+    <div class="nav-links">
         <a href="index.php">หน้าแรก</a>
-        <a href="showtime.php">โปรแกรมฉายหนัง</a>
-        <a href="upcoming.php">โปรแกรมหน้า</a>
+        <div class="dropdown">
+            <button class="dropbtn">โปรแกรมหนัง</button>
+            <div class="dropdown-content">
+                <a href="showtime.php">โปรแกรมฉายหนัง</a>
+                <a href="upcoming.php">โปรแกรมหน้า</a>
+            </div>
+        </div>
         <a href="register.php">ลงทะเบียน</a> |
         <a href="login.php">เข้าสู่ระบบ</a>
-    </nav>
+    </div>
+</nav>
 </header>
 
 <body>
@@ -89,6 +98,19 @@
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
         </div>
     </div>
+
+    <div class="imglogo">
+        <img src="photo/logo.jpg" alt="logo">
+        <img src="photo/logo1.jpg" alt="logo">
+        <img src="photo/logo2.jpg" alt="logo">
+        <img src="photo/logo3.jpg" alt="logo">
+        
+        
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Movie Theater. All rights reserved.</p>
+    </footer>
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>

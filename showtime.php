@@ -8,23 +8,25 @@
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
-
-    
-    
 </head>
 
 <header>
-    <nav>
+<nav>
+    <a href="index.php">
+    <img src="photo/Malai_Cineplex.jpg" href="index.php" alt="logo">
+    <div class="nav-links">
         <a href="index.php">หน้าแรก</a>
-        <a href="showtime.php">โปรแกรมฉายหนัง</a>
-        <a href="upcoming.php">โปรแกรมหน้า</a>
+        <div class="dropdown">
+            <button class="dropbtn">โปรแกรมหนัง</button>
+            <div class="dropdown-content">
+                <a href="showtime.php">โปรแกรมฉายหนัง</a>
+                <a href="upcoming.php">โปรแกรมหน้า</a>
+            </div>
+        </div>
         <a href="register.php">ลงทะเบียน</a> |
         <a href="login.php">เข้าสู่ระบบ</a>
-    </nav>
-</header>
-
-<body>
-
+    </div>
+</nav>
     <!-- แบนเนอร์สไลด์ -->
     <div class="banner">
         <div class="swiper-container">
@@ -36,11 +38,11 @@
             <!-- ปุ่มเลื่อน -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
-            
-            
         </div>
     </div>
+</header>
 
+<body>
     <div class="content">
         <h1>โปรแกรมหนัง</h1>
         <div class="movies">
@@ -68,6 +70,19 @@
         </div>
     </div>
 
+    <div class="imglogo">
+        <img src="photo/logo.jpg" alt="logo">
+        <img src="photo/logo1.jpg" alt="logo">
+        <img src="photo/logo2.png" alt="logo">
+        <img src="photo/logo3.jpg" alt="logo">
+        
+        
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Movie Theater. All rights reserved.</p>
+    </footer>
+
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
@@ -87,6 +102,5 @@
             }
         });
     </script>
-
 </body>
 </html>

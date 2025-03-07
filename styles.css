@@ -37,6 +37,13 @@ nav a {
     text-decoration: none;
     padding: 10px 20px;
     transition: color 0.3s ease, border-bottom 0.3s ease;
+    display: flex;
+    
+}
+
+nav img {
+    height: 50px; /* ปรับขนาดโลโก้ */
+    margin-right: 20px; /* เว้นระยะห่างระหว่างโลโก้กับเมนู */
 }
 
 nav a:hover {
@@ -163,6 +170,121 @@ h1 {
 .ticket .button:active {
     background-color: #004085;
 }
+
+/* กำหนดโครงสร้าง Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 1000; /* ทำให้ Dropdown อยู่ด้านหน้าสุด */
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    color: white; /* เปลี่ยนสีตัวหนังสือเป็นสีขาว */
+}
+
+/* ซ่อนเมนูตอนเริ่มต้น */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    min-width: 150px;
+    z-index: 1001; /* ให้ Dropdown อยู่ด้านหน้า */
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* แสดงเมนูเมื่อ hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #000000; /* ใช้พื้นหลังสีขาว */
+    color: #ffcc00; /* ใช้สีตัวอักษรดำ */
+    font-size: 14px; /* ขนาดฟอนต์เล็กลง */
+    margin-top: 20px;
+    border-top: 2px solid #ffcc00; /* ขีดเส้นแบ่งด้านบน footer */
+}
+footer p {
+    margin: 0;
+}
+
+.imglogo {
+    display: flex; /* ใช้ Flexbox เพื่อจัดระเบียบภาพ */
+    justify-content: center; /* จัดกลางในแนวนอน */
+    align-items: center; /* จัดกลางในแนวตั้ง */
+    gap: 20px; /* เว้นระยะระหว่างรูปภาพ */
+    margin-top: 40px;
+}
+
+.imglogo img {
+    width: 100px; /* กำหนดขนาดความกว้างให้เท่ากัน */
+    height: 100px; /* ให้ความสูงปรับตามสัดส่วน */
+    object-fit: contain; /* ควบคุมให้ภาพไม่ถูกยืดหรือยุบ */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: left; /* ทำให้เมนูไปอยู่ขวา */
+    background-color: #222;
+    padding: 10px 20px;
+}
+
+nav img {
+    height: 50px; /* ปรับขนาดโลโก้ */
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+nav a, .dropbtn {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+}
+
+.dropbtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
