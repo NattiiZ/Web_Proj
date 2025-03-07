@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>โปรแกรมฉายหนัง</title>
+    <title>โปรแกรมหน้า</title>
     
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -18,6 +18,7 @@
     <nav>
         <a href="index.php">หน้าแรก</a>
         <a href="showtime.php">โปรแกรมฉายหนัง</a>
+        <a href="upcoming.php">โปรแกรมหน้า</a>
         <a href="register.php">ลงทะเบียน</a> |
         <a href="login.php">เข้าสู่ระบบ</a>
     </nav>
@@ -42,7 +43,7 @@
     </div>
 
     <div class="content">
-        <h1>โปรแกรมหนัง</h1>
+        <h1>โปรแกรมหน้า</h1>
         <div class="movies">
             <div class='movie'>
                 <img src='photo/novocaine.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
