@@ -73,7 +73,7 @@
         <div class="info">
             <h1>มูลู หน้าครู</h1>
             <p><strong>ประเภท:</strong> สยองขวัญ</p>
-            <p><strong>ความยาว:</strong> 9จ นาที</p>
+            <p><strong>ความยาว:</strong> 90 นาที</p>
             <button>ดูรอบฉาย</button>
             
             

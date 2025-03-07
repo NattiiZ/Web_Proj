@@ -46,7 +46,7 @@
         <div class="movies">
             <div class='movie'>
                 <img src='photo/novocaine.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
-                <p><a href='Detailnovaocaine.php'>Novocaine มิสเตอร์โคตรคนทรหด</a></p>
+                <p><a href='Detailnovocaine.php'>Novocaine มิสเตอร์โคตรคนทรหด</a></p>
                 <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
@@ -64,6 +64,14 @@
                 <p class='showtime'>วันที่เข้าฉาย: 13 มีนาคม 2025</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
+            </div>
+            <div class="movie">
+                <img src="photo/snowwhite.jpg" alt="ภาพยนตร์เรื่องที่ 4">
+                <p><a href="Detailsnowwhite.php">snowwhite | สโนว์ไวท์ </a></p>
+                <p class="showtime">วันที่เข้าฉาย: 20 มีนาคม 2025</p>
+                <p class="ticket">
+                <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
+
             </div>
         </div>
     </div>
