@@ -3,15 +3,15 @@
 $servername = "localhost";
 $username = "root"; // เปลี่ยนเป็นของคุณ
 $password = "";
-$dbname = "movie_db";
+$dbname = "movie_ticket"; // ใช้ชื่อฐานข้อมูลที่ถูกต้อง
 
-// $conn = new mysqli($servername, $username, $password, $dbname);
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // ดึงรายชื่อหนังจากฐานข้อมูล
-// $movies = $conn->query("SELECT * FROM movies");
+$movies = $conn->query("SELECT * FROM movies");
 
 // เพิ่มรอบฉาย
 if (isset($_POST['add_showtime'])) {
@@ -19,31 +19,50 @@ if (isset($_POST['add_showtime'])) {
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
 
-    $sql = "INSERT INTO showtimes (movie_id, show_date, show_time) VALUES ('$movie_id', '$show_date', '$show_time')";
-    $conn->query($sql);
+    $stmt = $conn->prepare("INSERT INTO showtimes (movie_id, show_date, show_time) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $movie_id, $show_date, $show_time);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: ".$_SERVER['PHP_SELF']); // รีเฟรชหน้า
+    exit;
 }
 
 // แก้ไขรอบฉาย
 if (isset($_POST['edit_showtime'])) {
-    $id = $_POST['id'];
+    $showtime_id = $_POST['showtime_id'];
     $movie_id = $_POST['movie_id'];
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
 
-    $sql = "UPDATE showtimes SET movie_id='$movie_id', show_date='$show_date', show_time='$show_time' WHERE id=$id";
-    $conn->query($sql);
+    $stmt = $conn->prepare("UPDATE showtimes SET movie_id=?, show_date=?, show_time=? WHERE showtime_id=?");
+    $stmt->bind_param("issi", $movie_id, $show_date, $show_time, $showtime_id);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit;
 }
 
 // ลบรอบฉาย
 if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $sql = "DELETE FROM showtimes WHERE id=$id";
-    $conn->query($sql);
+    $showtime_id = $_GET['delete'];
+
+    $stmt = $conn->prepare("DELETE FROM showtimes WHERE showtime_id=?");
+    $stmt->bind_param("i", $showtime_id);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit;
 }
 
 // ดึงข้อมูลรอบฉายทั้งหมด
-// $showtimes = $conn->query("SELECT showtimes.id, movies.title, showtimes.show_date, showtimes.show_time 
-//                            FROM showtimes JOIN movies ON showtimes.movie_id = movies.id");
+$showtimes = $conn->query("
+    SELECT showtimes.showtime_id, movies.title, showtimes.show_date, showtimes.show_time 
+    FROM showtimes 
+    JOIN movies ON showtimes.movie_id = movies.movie_id
+");
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +129,7 @@ if (isset($_GET['delete'])) {
         <select name="movie_id" required>
             <option value="">เลือกหนัง</option>
             <?php while ($row = $movies->fetch_assoc()): ?>
-                <option value="<?= $row['id'] ?>"><?= $row['title'] ?></option>
+                <option value="<?= $row['movie_id'] ?>"><?= $row['title'] ?></option>
             <?php endwhile; ?>
         </select>
         <input type="date" name="show_date" required>
@@ -131,17 +150,17 @@ if (isset($_GET['delete'])) {
         </tr>
         <?php while ($row = $showtimes->fetch_assoc()): ?>
             <tr>
-                <td><?= $row['id'] ?></td>
+                <td><?= $row['showtime_id'] ?></td>
                 <td><?= $row['title'] ?></td>
                 <td><?= $row['show_date'] ?></td>
                 <td><?= $row['show_time'] ?></td>
                 <td>
-                    <button onclick="showEditForm('<?= $row['id'] ?>', '<?= $row['title'] ?>', '<?= $row['show_date'] ?>', '<?= $row['show_time'] ?>')">
+                    <button onclick="showEditForm('<?= $row['showtime_id'] ?>', '<?= $row['movie_id'] ?>', '<?= $row['show_date'] ?>', '<?= $row['show_time'] ?>')">
                         ✏ แก้ไข
                     </button>
                 </td>
                 <td>
-                    <a href="?delete=<?= $row['id'] ?>" onclick="return confirm('ยืนยันการลบ?');">🗑 ลบ</a>
+                    <a href="?delete=<?= $row['showtime_id'] ?>" onclick="return confirm('ยืนยันการลบ?');">🗑 ลบ</a>
                 </td>
             </tr>
         <?php endwhile; ?>
@@ -151,13 +170,13 @@ if (isset($_GET['delete'])) {
     <div id="editFormContainer" style="display: none;">
         <h2>แก้ไขรอบฉาย</h2>
         <form class="edit-form" method="POST">
-            <input type="hidden" name="id" id="edit_id">
+            <input type="hidden" name="showtime_id" id="edit_showtime_id">
             <select name="movie_id" id="edit_movie_id" required>
                 <option value="">เลือกหนัง</option>
                 <?php
                 $movies->data_seek(0); // รีเซ็ต pointer ของ query
                 while ($row = $movies->fetch_assoc()): ?>
-                    <option value="<?= $row['id'] ?>"><?= $row['title'] ?></option>
+                    <option value="<?= $row['movie_id'] ?>"><?= $row['title'] ?></option>
                 <?php endwhile; ?>
             </select>
             <input type="date" name="show_date" id="edit_show_date" required>
@@ -167,9 +186,10 @@ if (isset($_GET['delete'])) {
     </div>
 
     <script>
-        function showEditForm(id, title, date, time) {
+        function showEditForm(id, movie_id, date, time) {
             document.getElementById('editFormContainer').style.display = 'block';
-            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_showtime_id').value = id;
+            document.getElementById('edit_movie_id').value = movie_id;
             document.getElementById('edit_show_date').value = date;
             document.getElementById('edit_show_time').value = time;
         }
