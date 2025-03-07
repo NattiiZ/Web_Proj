@@ -62,21 +62,21 @@
         <h1>โปรแกรมหนัง</h1>
         <div class="movies">
             <div class='movie'>
-                <img src='photo/comper.jpg' alt='ภาพยนตร์เรื่องที่ 1'>
+                <a href="Detailcompanion.php"><img src="photo/comper.jpg" alt='ภาพยนตร์เรื่องที่ 1'>
                 <p><a href='Detailcompanion.php'>Companion | คอมแพเนียน </a></p>
                 <p class='showtime'>ฉายเวลา: 12:30, 15:00, 18:00</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/Dacknun.jpg' alt='ภาพยนตร์เรื่องที่ 2'>
+                <a href="Detaildarknun.php"><img src="photo/Dacknun.jpg" alt='ภาพยนตร์เรื่องที่ 2'>
                 <p><a href='Detaildarknun.php'>Dark Nuns</a></p>
                 <p class='showtime'>ฉายเวลา: 13:00, 16:00, 19:30</p>
                 <p class="ticket">
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
             </div>
             <div class='movie'>
-                <img src='photo/substance.jpg' alt='ภาพยนตร์เรื่องที่ 3'>
+                <a href="Detailsubstance.php"><img src="photo/substance.jpg" alt='ภาพยนตร์เรื่องที่ 3'>
                 <p><a href='Detailsubstance.php'>The Substance | สวยสลับร่าง</a></p>
                 <p class='showtime'>ฉายเวลา: 14:15, 17:45, 21:00</p>
                 <p class="ticket">
