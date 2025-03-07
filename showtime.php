@@ -17,7 +17,7 @@
     <nav>
         <a href="index.php">หน้าแรก</a>
         <a href="showtime.php">โปรแกรมฉายหนัง</a>
-        <a href="showtime.php">โปรแกรมหน้า</a>
+        <a href="upcoming.php">โปรแกรมหน้า</a>
         <a href="register.php">ลงทะเบียน</a> |
         <a href="login.php">เข้าสู่ระบบ</a>
     </nav>
