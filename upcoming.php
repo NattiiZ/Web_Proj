@@ -30,7 +30,7 @@
     <div class="banner">
         <div class="swiper-container">
             <div class="swiper-wrapper"> 
-                <div class="swiper-slide"><a href="Detailcompanion.php"><img src="photo/comper.jpg" alt="Banner 1"></a></div>
+                <div class="swiper-slide"><a href="Detailnovocaine.php"><img src="photo/novocaine.jpg" alt="Banner 1"></a></div>
                 <div class="swiper-slide"><a href="Detaildarknun.php"><img src="photo/Dacknun.jpg" alt="Banner 2"></a></div>
                 <div class="swiper-slide"><a href="Detailsubstance.php"><img src="photo/substance.jpg" alt="Banner 3"></a></div>
              </div> 
@@ -74,7 +74,24 @@
                 <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
 
             </div>
+            <div class="movie">
+                <img src="photo/ppbb.jpg" alt="ภาพยนตร์เรื่องที่ 5">
+                <p><a href="Detailbbpp.php">ซองแดงแต่งผี</a></p>
+                <p class="showtime">วันที่เข้าฉาย: 20 มีนาคม 2025</p>
+                <p class="ticket"> 
+                <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
+            </div>
+            <div class = "movie">
+                <img src="photo/sparm.jpg" alt="ภาพยนตร์เรื่องที่ 6">
+                <p><a href="Detailsparm.php">แก๊งสเปิร์มผงาด</a></p>
+                <p class="showtime">วันที่เข้าฉาย: 27 มีนาคม 2025</p>
+                <p class="ticket">
+                <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
         </div>
+    </div>
+
+   
+
     </div>
 
     <!-- JavaScript -->
