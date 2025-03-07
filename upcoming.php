@@ -40,8 +40,8 @@
         <div class="swiper-container">
             <div class="swiper-wrapper"> 
                 <div class="swiper-slide"><a href="Detailnovocaine.php"><img src="photo/novocaine.jpg" alt="Banner 1"></a></div>
-                <div class="swiper-slide"><a href="Detaildarknun.php"><img src="photo/Dacknun.jpg" alt="Banner 2"></a></div>
-                <div class="swiper-slide"><a href="Detailsubstance.php"><img src="photo/substance.jpg" alt="Banner 3"></a></div>
+                <div class="swiper-slide"><a href="Detailnaja2.php"><img src="photo/naja2.jpg" alt="Banner 2"></a></div>
+                <div class="swiper-slide"><a href="Detailsnowwhite.php"><img src="photo/snowwhite.jpg"Banner 3"></a></div>
              </div> 
             <!-- ปุ่มเลื่อน -->
             <div class="swiper-button-next"></div>
