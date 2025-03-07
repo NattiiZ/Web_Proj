@@ -6,20 +6,14 @@ $password = "";
 $dbname = "movie_ticket";
 
 // เชื่อมต่อฐานข้อมูล
-$conn = mysqli_connect($hostname, $username, $password);
+$conn = mysqli_connect($hostname, $username, $password, $dbname);
 
 if (!$conn) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
 }
 
-// เลือกฐานข้อมูล
-if (!mysqli_select_db($conn, $dbname)) {
-    die("ไม่สามารถเลือกฐานข้อมูล: " . mysqli_error($conn));
-}
-
-// ตรวจสอบว่ามีการส่งค่า POST มาหรือไม่
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // รับค่าจากฟอร์มและป้องกัน SQL Injection
+// ตรวจสอบว่ามีการส่งค่า POST มาหรือไม่ (เพิ่มหนัง)
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_movie'])) {
     $nameM = mysqli_real_escape_string($conn, $_POST['name']);
     $details = mysqli_real_escape_string($conn, $_POST['details']);
     $price = mysqli_real_escape_string($conn, $_POST['price']);
@@ -27,12 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category_Id = mysqli_real_escape_string($conn, $_POST['category_Id']);
     $image = mysqli_real_escape_string($conn, $_POST['image']);
 
-    // ตรวจสอบว่ากรอกค่าครบหรือไม่
     if (!empty($nameM) && !empty($details) && !empty($price) && !empty($director) && !empty($category_Id) && !empty($image)) {
-        // แก้ไข SQL โดยใช้ค่าตัวแปรถูกต้อง
         $sql = "INSERT INTO movies (name, price, director, category_Id, description, image) VALUES ('$nameM', '$price', '$director', '$category_Id', '$details', '$image')";
-
-
         if (mysqli_query($conn, $sql)) {
             echo "<p style='color: green;'>✅ เพิ่มหนังสำเร็จ!</p>";
         } else {
@@ -40,6 +30,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         echo "<p style='color: red;'>⚠ กรุณากรอกข้อมูลให้ครบ</p>";
+    }
+}
+
+// ฟังก์ชันลบหนัง
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_movie'])) {
+    $movie_id = mysqli_real_escape_string($conn, $_POST['movie_id']);
+    $sql = "DELETE FROM movies WHERE id='$movie_id'";
+    if (mysqli_query($conn, $sql)) {
+        echo "<p style='color: green;'>✅ ลบหนังสำเร็จ!</p>";
+    } else {
+        echo "<p style='color: red;'>❌ ไม่สามารถลบหนังได้: " . mysqli_error($conn) . "</p>";
+    }
+}
+
+// ฟังก์ชันแก้ไขหนัง
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_movie'])) {
+    $movie_id = mysqli_real_escape_string($conn, $_POST['movie_id']);
+    $nameM = mysqli_real_escape_string($conn, $_POST['name']);
+    $details = mysqli_real_escape_string($conn, $_POST['details']);
+    $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $director = mysqli_real_escape_string($conn, $_POST['director']);
+    $category_Id = mysqli_real_escape_string($conn, $_POST['category_Id']);
+    $image = mysqli_real_escape_string($conn, $_POST['image']);
+
+    $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details', image='$image' WHERE id='$movie_id'";
+    if (mysqli_query($conn, $sql)) {
+        echo "<p style='color: green;'>✅ แก้ไขหนังสำเร็จ!</p>";
+    } else {
+        echo "<p style='color: red;'>❌ ไม่สามารถแก้ไขหนังได้: " . mysqli_error($conn) . "</p>";
     }
 }
 
@@ -51,9 +70,8 @@ mysqli_close($conn);
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>เพิ่มหนัง</title>
-</head>
-<style>
+    <title>จัดการหนัง</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -90,33 +108,38 @@ mysqli_close($conn);
         button:hover {
             background: #218838;
         }
-        .message {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
     </style>
+</head>
 <body>
-<h1>เพิ่มหนัง</h1>
-<form method="post">
-    <p><input type="text" name="name" placeholder="ชื่อหนัง" required></p>
-    <p><input type="text" name="details" placeholder="รายละเอียด" required></p>
-    <p><input type="number" name="price" placeholder="ราคา" required></p>
-    <p><input type="text" name="director" placeholder="ผู้กำกับ" required></p>
-    <p><input type="text" name="category_Id" placeholder="หมวดหมู่" required></p>
-    <p><input type="text" name="image" placeholder="ภาพ" required></p>
+<div class="container">
+    <h1>เพิ่มหนัง</h1>
+    <form method="post">
+        <input type="text" name="name" placeholder="ชื่อหนัง" required>
+        <input type="text" name="details" placeholder="รายละเอียด" required>
+        <input type="number" name="price" placeholder="ราคา" required>
+        <input type="text" name="director" placeholder="ผู้กำกับ" required>
+        <input type="text" name="category_Id" placeholder="หมวดหมู่" required>
+        <input type="text" name="image" placeholder="ภาพ" required>
+        <button type="submit" name="add_movie">เพิ่มหนัง</button>
+    </form>
 
-    <button type="submit">เพิ่มหนัง</button>
-</form>
+    <h1>ลบหนัง</h1>
+    <form method="post">
+        <input type="number" name="movie_id" placeholder="รหัสหนัง" required>
+        <button type="submit" name="delete_movie">ลบหนัง</button>
+    </form>
+
+    <h1>แก้ไขหนัง</h1>
+    <form method="post">
+        <input type="number" name="movie_id" placeholder="รหัสหนัง" required>
+        <input type="text" name="name" placeholder="ชื่อหนัง" required>
+        <input type="text" name="details" placeholder="รายละเอียด" required>
+        <input type="number" name="price" placeholder="ราคา" required>
+        <input type="text" name="director" placeholder="ผู้กำกับ" required>
+        <input type="text" name="category_Id" placeholder="หมวดหมู่" required>
+        <input type="text" name="image" placeholder="ภาพ" required>
+        <button type="submit" name="edit_movie">แก้ไขหนัง</button>
+    </form>
+</div>
 </body>
 </html>
