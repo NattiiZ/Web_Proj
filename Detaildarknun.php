@@ -63,6 +63,7 @@
     </style>
 </head>
 <body>
+    
     <div class="navbar">
         <a href="index.php">หน้าแรก</a>
         <a href="showtime.php">โปรแกรมฉายหนัง</a>

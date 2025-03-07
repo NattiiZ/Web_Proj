@@ -61,7 +61,7 @@ header {
     
     <div class="correct">
 
-        <a href="update.php">แก้ไขหนัง</a>
+        <a href="correctMovie.php">แก้ไขหนัง</a>
         <a href="editcategory.php">แก้ไขหมวดหมู่</a>
         <a href="editshowtime.php">แก้ไขรอบ</a>
         <a href="edituser.php">แก้ไขuser</a>
