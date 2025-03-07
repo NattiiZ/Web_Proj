@@ -74,7 +74,7 @@
     <div class="imglogo">
         <img src="photo/logo.jpg" alt="logo">
         <img src="photo/logo1.jpg" alt="logo">
-        <img src="photo/logo2.png" alt="logo">
+        <img src="photo/logo2.jpg" alt="logo">
         <img src="photo/logo3.jpg" alt="logo">
         
         
