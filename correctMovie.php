@@ -30,7 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ตรวจสอบว่ากรอกค่าครบหรือไม่
     if (!empty($nameM) && !empty($details) && !empty($price) && !empty($director) && !empty($category_Id) && !empty($image)) {
         // แก้ไข SQL โดยใช้ค่าตัวแปรถูกต้อง
-        $sql = "INSERT INTO movies (name, price, director ,category_Id, description, image) VALUES ('$nameM', '$price', '$director','$category_Id','$description','$image')";
+        $sql = "INSERT INTO movies (name, price, director, category_Id, description, image) VALUES ('$nameM', '$price', '$director', '$category_Id', '$details', '$image')";
+
 
         if (mysqli_query($conn, $sql)) {
             echo "<p style='color: green;'>✅ เพิ่มหนังสำเร็จ!</p>";
@@ -52,6 +53,59 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <title>เพิ่มหนัง</title>
 </head>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 40%;
+            background: white;
+            padding: 20px;
+            margin: 50px auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
 <body>
 <h1>เพิ่มหนัง</h1>
 <form method="post">
