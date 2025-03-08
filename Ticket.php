@@ -1,13 +1,16 @@
 <?php
 session_start();
+
+// ตั้งค่าการเชื่อมต่อฐานข้อมูล
 $hostname = "localhost";
 $username = "root";
 $password = "";
 $dbname = "movie_ticket";
-$conn = mysqli_connect($hostname, $username, $password, $dbname);
 
+// เชื่อมต่อ MySQL
+$conn = mysqli_connect($hostname, $username, $password, $dbname);
 if (!$conn) {
-    die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
+    die("<script>alert('❌ การเชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error() . "');</script>");
 }
 
 // ดึงรายการภาพยนตร์จากฐานข้อมูล
@@ -24,9 +27,7 @@ $result = mysqli_query($conn, $sql);
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
             background-color: #f4f4f4;
             padding: 20px;
         }
@@ -83,26 +84,27 @@ $result = mysqli_query($conn, $sql);
 </head>
 <body>
 
-    <h1>จองตั๋วหนัง</h1>
+    <h1>🎬 จองตั๋วหนัง 🎟️</h1>
     <div class="movie-container">
         <?php while ($movie = mysqli_fetch_assoc($result)) { ?>
             <div class="movie">
                 <img src="photo/<?= htmlspecialchars($movie['image']) ?>" alt="<?= htmlspecialchars($movie['name']) ?>">
                 <h2><?= htmlspecialchars($movie['name']) ?></h2>
-                <p>ฉายเวลา: <?= htmlspecialchars($movie['showtime']) ?></p>
-                <p>ราคาตั๋ว: <span id="price-<?= $movie['id'] ?>"><?= number_format($movie['price'], 2) ?></span> บาท</p>
+                <p>ฉายเวลา: <?= isset($movie['showtime']) ? htmlspecialchars($movie['showtime']) : 'ไม่ระบุ' ?></p>
+                <p>ราคาตั๋ว: <span id="price-<?= (int)$movie['id'] ?>">
+                <?= isset($movie['price']) ? number_format((float)$movie['price'], 2) : '0.00' ?>
+                </span> บาท</p>
 
-                <!-- ฟอร์มจองตั๋ว -->
                 <div class="quantity-control">
-                    <button class="quantity-btn" onclick="changeQuantity(<?= $movie['id'] ?>, -1)">-</button>
+                    <button onclick="changeQuantity(<?= (int)$movie['id'] ?>, -1)">-</button>
                     <span id="quantity-<?= $movie['id'] ?>">1</span>
-                    <button class="quantity-btn" onclick="changeQuantity(<?= $movie['id'] ?>, 1)">+</button>
+                    <button class="quantity-btn" onclick="changeQuantity(<?= (int)$movie['id'] ?>, 1)">+</button>
                 </div>
 
                 <p>ราคารวม: <span id="total-<?= $movie['id'] ?>"><?= number_format($movie['price'], 2) ?></span> บาท</p>
 
-                <form action="order.php" method="POST">
-                    <input type="hidden" name="movie_id" value="<?= $movie['id'] ?>">
+                <form method="POST">
+                    <input type="hidden" name="movie_id" value="<?= (int)$movie['id'] ?>">
                     <input type="hidden" id="hidden-quantity-<?= $movie['id'] ?>" name="tickets" value="1">
                     <input type="hidden" id="hidden-price-<?= $movie['id'] ?>" name="total_price" value="<?= $movie['price'] ?>">
                     <button type="submit" class="pay-btn">จองเลย</button>
@@ -138,31 +140,32 @@ $result = mysqli_query($conn, $sql);
 </html>
 
 <?php
-// เมื่อกด "จองเลย"
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $movie_id = intval($_POST['movie_id']);
-    $tickets = intval($_POST['tickets']);
-    $total_price = floatval($_POST['total_price']);
+    $movie_id = intval($_POST['movie_id'] ?? 0);
+    $tickets = intval($_POST['tickets'] ?? 1);
+    $total_price = floatval($_POST['total_price'] ?? 0.0);
 
-    if ($movie_id == 0 || $tickets < 1) {
-        die("ข้อมูลไม่ถูกต้อง");
+    if ($movie_id <= 0 || $tickets < 1) {
+        die("<script>alert('⚠️ ข้อมูลไม่ถูกต้อง');</script>");
     }
 
-    // ตรวจสอบว่ามีหนังเรื่องนี้หรือไม่
-    $sql = "SELECT id FROM movies WHERE id = $movie_id";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) == 0) {
-        die("ไม่พบข้อมูลภาพยนตร์");
+    $stmt = $conn->prepare("SELECT id FROM movies WHERE id = ?");
+    $stmt->bind_param("i", $movie_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows === 0) {
+        die("<script>alert('❌ ไม่พบข้อมูลภาพยนตร์');</script>");
     }
 
-    // บันทึกข้อมูลการจอง
-    $sql = "INSERT INTO orders (movie_id, tickets, total_price, created_at) 
-            VALUES ('$movie_id', '$tickets', '$total_price', NOW())";
-
-    if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('✅ จองตั๋วสำเร็จ! 🎟️\\n💰 ยอดชำระ: " . number_format($total_price, 2) . " บาท'); window.location.href='order.php';</script>";
+    $stmt = $conn->prepare("INSERT INTO orders (movie_id, tickets, total_price, created_at) VALUES (?, ?, ?, NOW())");
+    $stmt->bind_param("iid", $movie_id, $tickets, $total_price);
+    if ($stmt->execute()) {
+        echo "<script>alert('✅ จองตั๋วสำเร็จ! 🎟️\n💰 ยอดชำระ: " . number_format($total_price, 2) . " บาท'); window.location.href='Ticket.php';</script>";
     } else {
-        echo "เกิดข้อผิดพลาด: " . mysqli_error($conn);
+        echo "<script>alert('เกิดข้อผิดพลาดในการจอง');</script>";
     }
 }
+
+mysqli_close($conn);
 ?>
+</html>

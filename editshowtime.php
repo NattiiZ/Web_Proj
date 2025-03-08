@@ -30,13 +30,13 @@ if (isset($_POST['add_showtime'])) {
 
 // แก้ไขรอบฉาย
 if (isset($_POST['edit_showtime'])) {
-    $showtime_id = $_POST['showtime_id'];
+    $show_id = $_POST['showtime_id'];
     $movie_id = $_POST['movie_id'];
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
 
     $stmt = $conn->prepare("UPDATE showtimes SET movie_id=?, show_date=?, show_time=? WHERE showtime_id=?");
-    $stmt->bind_param("issi", $movie_id, $show_date, $show_time, $showtime_id);
+    $stmt->bind_param("issi", $movie_id, $show_date, $show_time, $show_id);
     $stmt->execute();
     $stmt->close();
 
@@ -46,10 +46,10 @@ if (isset($_POST['edit_showtime'])) {
 
 // ลบรอบฉาย
 if (isset($_GET['delete'])) {
-    $showtime_id = $_GET['delete'];
+    $show_id = $_GET['delete'];
 
     $stmt = $conn->prepare("DELETE FROM showtimes WHERE showtime_id=?");
-    $stmt->bind_param("i", $showtime_id);
+    $stmt->bind_param("i", $show_id);
     $stmt->execute();
     $stmt->close();
 
@@ -59,9 +59,10 @@ if (isset($_GET['delete'])) {
 
 // ดึงข้อมูลรอบฉายทั้งหมด
 $showtimes = $conn->query("
-    SELECT showtimes.showtime_id, movies.title, showtimes.show_date, showtimes.show_time 
+    SELECT show.id AS showtime_id, movies.title, showtimes.show_date, showtimes.show_time 
     FROM showtimes 
     JOIN movies ON showtimes.movie_id = movies.movie_id
+
 ");
 ?>
 
