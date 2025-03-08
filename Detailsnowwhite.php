@@ -74,7 +74,7 @@
             <h1>snowwhite | สโนว์ไวท์</h1>
             <p><strong>ประเภท:</strong> ผจญภัย , ชีวิต</p>
             <p><strong>ความยาว:</strong> 119 นาที</p>
-            <button>ดูรอบฉาย</button>
+            
             
             
             <div class="director">

@@ -232,6 +232,7 @@ footer p {
     align-items: center; /* จัดกลางในแนวตั้ง */
     gap: 20px; /* เว้นระยะระหว่างรูปภาพ */
     margin-top: 40px;
+    border-radius: 50%; /* ทำให้กลม */
 }
 
 .imglogo img {
@@ -283,6 +284,9 @@ nav a, .dropbtn {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+
+
 
 
 
