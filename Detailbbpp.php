@@ -74,7 +74,7 @@
             <h1>ซองแดงแต่งผี</h1>
             <p><strong>ประเภท:</strong> ตลก </p>
             <p><strong>ความยาว:</strong> 125 นาที</p>
-            <button>ดูรอบฉาย</button>
+            
             
             
             <div class="director">

@@ -74,7 +74,7 @@
             <h1>naja 2 | นาจา 2</h1>
             <p><strong>ประเภท:</strong> ผจญภัย , แอนิเมชัน , ชีวิต , แฟนตาซี </p>
             <p><strong>ความยาว:</strong> 145 นาที</p>
-            <button>ดูรอบฉาย</button>
+            
             
             
             <div class="director">

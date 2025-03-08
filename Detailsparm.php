@@ -74,7 +74,7 @@
             <h1>แก๊งสเปิร์มผงาด</h1>
             <p><strong>ประเภท:</strong> แอนิเมชัน , เพลง</p>
             <p><strong>ความยาว:</strong> 80 นาที</p>
-            <button>ดูรอบฉาย</button>
+            
             
             
             <div class="director">

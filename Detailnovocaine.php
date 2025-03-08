@@ -74,7 +74,7 @@
             <h1>Novocaine มิสเตอร์โคตรคนทรหด</h1>
             <p><strong>ประเภท:</strong> แอคชัน / ตลก / ระทึกขวัญ</p>
             <p><strong>ความยาว:</strong> 110 นาที</p>
-            <button>ดูรอบฉาย</button>
+            
             
             
             <div class="director">
