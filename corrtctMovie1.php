@@ -1,9 +1,21 @@
-<?php
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="banner.jpg" alt="โปสเตอร์หนัง">
+</body>
+</html><?php
 session_start();
 $hostname = "localhost";
 $username = "root";
 $password = "";
 $dbname = "movie_ticket";
+
 
 // เชื่อมต่อฐานข้อมูล
 $conn = mysqli_connect($hostname, $username, $password, $dbname);
@@ -61,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_movie'])) {
         $sql = "INSERT INTO movies (name, price, director, category_Id, description, image) VALUES ('$nameM', '$price', '$director', '$category_Id', '$details', '$image')";
         if (mysqli_query($conn, $sql)) {
             echo "<p style='color: green;'>✅ เพิ่มหนังสำเร็จ!</p>";
+         
             
             // echo "<img src="/photo/"" . $image . " alt="">";
         } else {
