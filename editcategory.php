@@ -11,33 +11,46 @@ if (!$conn) {
 }
 
 // เพิ่มหมวดหมู่
-if (isset($_POST['add_category'])) {
-    $category_name = $_POST['category_name'];
-    $sql = "INSERT INTO categories (name) VALUES ('$category_name')";
-    if ($conn->query($sql)) {
-        echo "<script>alert('เพิ่มหมวดหมู่เรียบร้อยแล้ว');</script>";
+    $category = $_POST['category_name'] ?? '';
+    if ($category != '') {
+        $sql = "INSERT INTO category (name) VALUES ('$category')";
+        if ($conn->query($sql)) {
+            if ($_POST['add_category'] ?? '') {
+                echo "<script>alert('เพิ่มหมวดหมู่สำเร็จ');</script>";
+            } 
+        }else {
+            echo "<script>alert('เกิดข้อผิดพลาดในการเพิ่มหมวดหมู่');</script>";
+        }
     } else {
-        echo "<script>alert('เกิดข้อผิดพลาดในการเพิ่มหมวดหมู่');</script>";
+        if ($_POST['add_category'] ?? '') 
+            echo "<script>alert('กรุณากรอกชื่อหมวดหมู่');</script>";
     }
-}
 
-// แก้ไขหมวดหมู่
-if (isset($_POST['edit_category'])) {
-    $id = $_POST['id'];
-    $category_name = $_POST['category_name'];
-    $sql = "UPDATE categories SET name='$category_name' WHERE id=$id";
-    $conn->query($sql);
-}
 
-// ลบหมวดหมู่
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $sql = "DELETE FROM categories WHERE id=$id";
-    $conn->query($sql);
-}
+    
+    $sqltxt = "SELECT * FROM category ";
+    $result = mysqli_query($conn, $sqltxt);
 
-// ดึงข้อมูลหมวดหมู่ทั้งหมด
-$categories = $conn->query("SELECT * FROM categories");
+    $CATID = $_POST['add_category'] ?? '';
+    echo $CATID;
+    // if ($CATID != '') {
+    //     $sql = "UPDATE catagory SET  name = 'catid'  WHERE Country='Mexico'";
+    //     if ($conn->query($sql)) {
+    //         if ($_POST['add_category'] ?? '') {
+    //             echo "<script>alert('เพิ่มหมวดหมู่สำเร็จ');</script>";
+    //         } 
+    //     }else {
+    //         echo "<script>alert('เกิดข้อผิดพลาดในการเพิ่มหมวดหมู่');</script>";
+    //     }
+    // } else {
+    //     if ($_POST['add_category'] ?? '') 
+    //         echo "<script>alert('กรุณากรอกชื่อหมวดหมู่');</script>";
+    // }
+
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -135,42 +148,41 @@ $categories = $conn->query("SELECT * FROM categories");
         <form method="POST" class="form-group">
             <th><input type="text" name="category_name" placeholder="ชื่อหมวดหมู่" required class="form-input"></th>
             <button type="submit" name="add_category" class="form-button">เพิ่มหมวดหมู่</button>
+            
         </form>
 
         <!-- ตารางแสดงรายการหมวดหมู่ -->
         <h2>รายการหมวดหมู่</h2>
         <table class="category-table">
             <tr>
-                <th>ID</th>
                 <th>ชื่อหมวดหมู่</th>
                 <th>แก้ไข</th>
                 <th>ลบ</th>
             </tr>
-            <?php while ($row = $categories->fetch_assoc()): ?>
-                <tr>
-                    <td><?= $row['id'] ?></td>
-                    <td><?= $row['name'] ?></td>
-                    <td>
-                        <button onclick="showEditForm('<?= $row['id'] ?>', '<?= $row['name'] ?>')" class="edit-button">
-                            ✏ แก้ไข
-                        </button>
-                    </td>
-                    <td>
-                        <a href="?delete=<?= $row['id'] ?>" class="delete-link" onclick="return confirm('ยืนยันการลบ?');">🗑 ลบ</a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
+            <?php
+              while ($rs = mysqli_fetch_array($result)) {
+                echo "<tr>";
+                echo "<td>" . $rs['name'] . "</td>";
+                echo "<td><form class=\"edit-cat\" method=\"POST\">
+                        <input type=\"hiddend\" name=\"id\" value=\" " . $rs['category_id']. " \" >
+                        <input type=\"hiddend\" name = \"id \" >
+                        <button type=\"submit\" name=\"add_category\" class=\"editcat_btn\">แก้ไข</button>
+                    </td>";
+                echo "<td></td>";
+                echo "</tr>";
+
+            //     echo "<tr>";
+            //     echo "<td>" . $rs['name'] . "</td>";
+            //     echo "<td><button onclick='showEditForm(" . $rs['category_id'] . ", \"" . $rs['name'] . "\")'>แก้ไข</button></td>";
+            //     echo `<td><form class="edit-form" method="POST">
+            //             <input type="hiddend" name="`.$rs['category_id'].`"  ">
+            //             <button type="submit" name="delete_category" class="form-button">x</button>
+            //         </form></td>`;
+            //     echo "</tr>";
+             }
+            ?>
         </table>
 
-        <!-- ฟอร์มแก้ไขหมวดหมู่ -->
-        <div id="editFormContainer" class="edit-form-container" style="display: none;">
-            <h2>แก้ไขหมวดหมู่</h2>
-            <form class="edit-form" method="POST">
-                <input type="hidden" name="id" id="edit_id" class="form-input">
-                <input type="text" name="category_name" id="edit_category_name" required class="form-input">
-                <button type="submit" name="edit_category" class="form-button">บันทึกการเปลี่ยนแปลง</button>
-            </form>
-        </div>
     </div>
 
     <script>
@@ -182,3 +194,5 @@ $categories = $conn->query("SELECT * FROM categories");
     </script>
 </body>
 </html>
+
+
