@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     // เข้ารหัสรหัสผ่าน
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
     // ตรวจสอบว่าชื่อผู้ใช้ซ้ำหรือไม่
     $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // บันทึกข้อมูลลงฐานข้อมูล
         $stmt = $conn->prepare("INSERT INTO users (username, password, name, email) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $username, $hashed_password, $name, $email);
+        $stmt->bind_param("ssss", $username, $password, $name, $email);
 
         if ($stmt->execute()) {
             $success = "สมัครสมาชิกสำเร็จ! <a href='login.php'>เข้าสู่ระบบ</a>";
