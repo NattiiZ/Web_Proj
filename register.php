@@ -1,6 +1,18 @@
 <?php
 session_start();
 
+
+if (isset($_SESSION['Username'])) {
+    // ถ้าเป็น admin ให้ไปหน้า admin_dashboard.php
+    if ($_SESSION['role_id'] == 1) {
+        header("Location: admin_dashboard.php");
+    } else {
+        header("Location: index.php");
+    }
+    exit(); // หยุดการทำงานของ script ต่อไป
+}
+
+
 // เชื่อมต่อฐานข้อมูล
 $hostname = "localhost";
 $username = "root";

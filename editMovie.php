@@ -2,9 +2,9 @@
 session_start();
 
 // ตรวจสอบว่า session มีข้อมูลและผู้ใช้เป็น admin หรือไม่
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 1) {
     // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 ?>

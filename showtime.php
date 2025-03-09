@@ -1,6 +1,13 @@
 <?php
 
 session_start();
+
+// ตรวจสอบว่า session มีข้อมูลและผู้ใช้เป็น admin หรือไม่
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
+    // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
+    header("Location: admin_dashboard.php");
+    exit();
+}
 // เชื่อมต่อฐานข้อมูล
 $hostname = "localhost";
 $username = "root";

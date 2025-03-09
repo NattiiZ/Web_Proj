@@ -1,13 +1,20 @@
 <?php
 session_start();
 
-// ตรวจสอบการล็อกอิน
-if (!isset($_SESSION['Username'])) {
-    // ถ้ายังไม่ได้ล็อกอิน ส่งกลับไปที่หน้า login
-    $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI']; // เก็บ URL ปัจจุบันใน session
-    header("Location: login.php");
-    exit();
-}
+// ตรวจสอบว่า session มีข้อมูลและผู้ใช้เป็น admin หรือไม่
+// if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
+//     // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
+//     header("Location: admin_dashboard.php");
+//     exit();
+// }
+
+// // ตรวจสอบการล็อกอิน
+// if (!isset($_SESSION['Username'])) {
+//     // ถ้ายังไม่ได้ล็อกอิน ส่งกลับไปที่หน้า login
+//     $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI']; // เก็บ URL ปัจจุบันใน session
+//     header("Location: login.php");
+//     exit();
+// }
 
 // เชื่อมต่อฐานข้อมูล
 $conn = new mysqli("localhost", "root", "", "movie_ticket");

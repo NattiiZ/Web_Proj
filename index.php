@@ -1,3 +1,14 @@
+<?php
+session_start();
+// session_unset();  // ลบข้อมูลทั้งหมดใน session
+// session_destroy();  
+
+// if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
+//     // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
+//     header("Location: admin_dashboard.php");
+//     exit();
+// }
+// ?>
 
 <?php
 session_start();
