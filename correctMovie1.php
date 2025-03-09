@@ -17,7 +17,7 @@
         /* Set the body background and text color */
         body {
             font-family: Arial, sans-serif;
-            background-color:rgb(255, 126, 225);
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             color: #333;
             line-height: 1.6;
             padding: 20px;
@@ -62,7 +62,7 @@
         button {
             width: 100%;
             padding: 12px;
-            background-color:rgb(255, 154, 226);
+            background: #ff758c;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -73,7 +73,7 @@
 
         /* Hover effect for buttons */
         button:hover {
-            background-color: rgb(255, 154, 226);
+            background: #ff5c75;
         }
 
         /* Image preview styles */
