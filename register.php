@@ -19,31 +19,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $confirm_password = mysqli_real_escape_string($conn, $_POST['confirm_password']); // รับค่าจาก confirm password
 
-    // เข้ารหัสรหัสผ่าน
-    $password = password_hash($password, PASSWORD_DEFAULT);
-
-    // ตรวจสอบว่าชื่อผู้ใช้ซ้ำหรือไม่
-    $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
-        $error = "ชื่อผู้ใช้นี้มีอยู่แล้ว กรุณาใช้ชื่ออื่น";
+    // ตรวจสอบว่ารหัสผ่านตรงกับยืนยันรหัสผ่านหรือไม่
+    if ($password !== $confirm_password) {
+        $error = "รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน";
     } else {
-        // บันทึกข้อมูลลงฐานข้อมูล
-        $stmt = $conn->prepare("INSERT INTO users (username, password, name, email) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $username, $password, $name, $email);
+        // เข้ารหัสรหัสผ่าน
+        // $password = password_hash($password, PASSWORD_DEFAULT);
 
-        if ($stmt->execute()) {
-            $success = "สมัครสมาชิกสำเร็จ! <a href='login.php'>เข้าสู่ระบบ</a>";
+        // ตรวจสอบว่าชื่อผู้ใช้ซ้ำหรือไม่
+        $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->store_result();
+
+        // ตรวจสอบอีเมล์ซ้ำ
+        $email_stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+        $email_stmt->bind_param("s", $email);
+        $email_stmt->execute();
+        $email_stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $error = "ชื่อผู้ใช้นี้มีอยู่แล้ว กรุณาใช้ชื่ออื่น";
+        } elseif ($email_stmt->num_rows > 0) {
+            $error = "อีเมล์นี้ถูกใช้งานแล้ว กรุณาใช้เมล์อื่น";
         } else {
-            $error = "เกิดข้อผิดพลาด: " . $stmt->error;
-        }
-    }
+            // บันทึกข้อมูลลงฐานข้อมูล
+            $stmt = $conn->prepare("INSERT INTO users (username, password, name, email) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $username, $password, $name, $email);
 
-    $stmt->close();
+            if ($stmt->execute()) {
+                // ทำการเปลี่ยนหน้าไปยังหน้า login.php
+                header("Location: login.php");
+                exit;
+            } else {
+                $error = "เกิดข้อผิดพลาด: " . $stmt->error;
+            }
+        }
+
+        $stmt->close();
+        $email_stmt->close();
+    }
 }
 
 mysqli_close($conn);
@@ -51,6 +68,7 @@ mysqli_close($conn);
 
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -159,6 +177,7 @@ mysqli_close($conn);
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -166,6 +185,7 @@ mysqli_close($conn);
         }
     </style>
 </head>
+
 <body>
 
     <div class="register-container">
@@ -187,6 +207,10 @@ mysqli_close($conn);
                 <i>🔒</i>
                 <input type="password" name="password" placeholder="Password" required>
             </div>
+            <div class="input-group">
+                <i>🔒</i>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            </div>
             <button type="submit" class="btn">REGISTER</button>
         </form>
 
@@ -200,4 +224,5 @@ mysqli_close($conn);
     </div>
 
 </body>
+
 </html>

@@ -1,90 +1,112 @@
+<?php
+
+session_start();
+// เชื่อมต่อฐานข้อมูล
+$hostname = "localhost";
+$username = "root";
+$password = "";
+$dbname = "movie_ticket";
+
+$conn = mysqli_connect($hostname, $username, $password, $dbname);
+
+// ตรวจสอบการเชื่อมต่อ
+if (!$conn) {
+    die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
+}
+
+// ดึงข้อมูลหนัง
+$sql = 'SELECT movie_id, name, image, status_id FROM movies WHERE status_id = 1';
+$result = mysqli_query($conn, $sql);
+
+// ตรวจสอบข้อผิดพลาด
+if (!$result) {
+    die("เกิดข้อผิดพลาดในการดึงข้อมูล: " . mysqli_error($conn));
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โปรแกรมฉายหนัง</title>
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
 </head>
 
-<header>
-<nav>
-    <a href="index.php" class="logo">
-        <img src="photo/Malai_Cineplex.jpg" alt="logo">
-    </a>
-    <div class="nav-links">
-        <a href="index.php">หน้าแรก</a>
-        <div class="dropdown">
-            <button class="dropbtn">โปรแกรมหนัง</button>
-            <div class="dropdown-content">
-                <a href="showtime.php">โปรแกรมฉายหนัง</a>
-                <a href="upcoming.php">โปรแกรมหน้า</a>
+<body>
+    <header>
+        <nav>
+            <a href="index.php" class="logo">
+                <img src="photo/Malai_Cineplex.jpg" alt="logo">
+            </a>
+            <div class="nav-links">
+                <a href="index.php">หน้าแรก</a>
+                <div class="dropdown">
+                    <button class="dropbtn">โปรแกรมหนัง</button>
+                    <div class="dropdown-content">
+                        <a href="showtime.php">โปรแกรมฉายหนัง</a>
+                        <a href="upcoming.php">โปรแกรมหน้า</a>
+                    </div>
+                </div>
+                <?php if (isset($_SESSION['Username'])): ?>
+                    <a href="profile.php">ข้อมูลส่วนตัว</a>
+                    <a href="logout.php">ออกจากระบบ</a>
+                <?php else: ?>
+                    <a href="login.php">เข้าสู่ระบบ</a>
+                <?php endif; ?>
+            </div>
+        </nav>
+
+        <div class="banner">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <?php while ($row = mysqli_fetch_array($result)): ?>
+                        <div class="swiper-slide">
+                            <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
+                                <img src="uploads/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+                                <?php if ($row['status'] == 3): ?>
+                                    <div class="coming-soon">Coming Soon</div>
+                                <?php endif; ?>
+                            </a>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
         </div>
-        <a href="register.php">ลงทะเบียน</a> |
-        <a href="login.php">เข้าสู่ระบบ</a>
-    </div>
-</nav>
-    <!-- แบนเนอร์สไลด์ -->
-    <div class="banner">
-        <div class="swiper-container">
-            <div class="swiper-wrapper"> 
-                <div class="swiper-slide"><a href="Detailcompanion.php"><img src="photo/comper.jpg" alt="Banner 1"></a></div>
-                <div class="swiper-slide"><a href="Detaildarknun.php"><img src="photo/Dacknun.jpg" alt="Banner 2"></a></div>
-                <div class="swiper-slide"><a href="Detailsubstance.php"><img src="photo/substance.jpg" alt="Banner 3"></a></div>
-             </div> 
-            <!-- ปุ่มเลื่อน -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-        </div>
-    </div>
-</header>
+    </header>
 
-<body>
     <div class="content">
         <h1>โปรแกรมหนัง</h1>
         <div class="movies">
-            <div class='movie'>
-                <a href="Detailcompanion.php"><img src="photo/comper.jpg" alt='ภาพยนตร์เรื่องที่ 1'>
-                <p><a href='Detailcompanion.php'>Companion | คอมแพเนียน </a></p>
-                <p class='showtime'>ฉายเวลา: 12:30, 15:00, 18:00</p>
-                <p class="ticket">
-                <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
-            </div>
-            <div class='movie'>
-                <a href="Detaildarknun.php"><img src="photo/Dacknun.jpg" alt='ภาพยนตร์เรื่องที่ 2'>
-                <p><a href='Detaildarknun.php'>Dark Nuns</a></p>
-                <p class='showtime'>ฉายเวลา: 13:00, 16:00, 19:30</p>
-                <p class="ticket">
-                <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
-            </div>
-            <div class='movie'>
-                <a href="Detailsubstance.php"><img src="photo/substance.jpg" alt='ภาพยนตร์เรื่องที่ 3'>
-                <p><a href='Detailsubstance.php'>The Substance | สวยสลับร่าง</a></p>
-                <p class='showtime'>ฉายเวลา: 14:15, 17:45, 21:00</p>
-                <p class="ticket">
-                <a href="Ticket.php" class="button">TICKET|จองตั๋ว</a></p>
-            </div>
+            <?php
+            // Move result pointer back to the beginning for displaying the list of movies below the banner
+            mysqli_data_seek($result, 0);
+            while ($row = mysqli_fetch_array($result)): ?>
+                <div class="movie">
+                    <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
+                        <img src="uploads/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+                    </a>
+                    <p>
+                        <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
+                            <?= htmlspecialchars($row['name']) ?>
+                        </a>
+                    </p>
+                    <p class="ticket">
+                        <a href="Ticket.php?id=<?= $row['movie_id'] ?>" class="button">TICKET | จองตั๋ว</a>
+                    </p>
+                </div>
+            <?php endwhile; ?>
         </div>
     </div>
 
-    <div class="imglogo">
-        <img src="photo/logo.jpg" alt="logo">
-        <img src="photo/logo1.jpg" alt="logo">
-        <img src="photo/logo2.jpg" alt="logo">
-        <img src="photo/logo3.jpg" alt="logo">
-        
-        
-    </div>
-    
     <footer>
         <p>&copy; 2025 Movie Theater. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper('.swiper-container', {
@@ -98,10 +120,12 @@
                 clickable: true,
             },
             autoplay: {
-                delay: 3000, // เปลี่ยนภาพทุก 3 วินาที
+                delay: 3000,
                 disableOnInteraction: false,
             }
         });
     </script>
+
 </body>
+
 </html>
