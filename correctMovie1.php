@@ -17,7 +17,7 @@
         /* Set the body background and text color */
         body {
             font-family: Arial, sans-serif;
-            background-color:rgb(255, 94, 218);
+            background-color:rgb(255, 126, 225);
             color: #333;
             line-height: 1.6;
             padding: 20px;
