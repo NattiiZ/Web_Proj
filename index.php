@@ -1,21 +1,3 @@
-<?php
-session_start();
-
-$hostname = "localhost";
-$username = "root";
-$password = "";
-$dbname = "movie_ticket";
-$conn = mysqli_connect($hostname, $username, $password, $dbname);
-
-// ตรวจสอบการเชื่อมต่อ
-if (!$conn) {
-    die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
-}
-
-// ดึงข้อมูลภาพยนตร์จากฐานข้อมูล
-$sql = "SELECT * FROM movies ORDER BY id DESC";
-$result = mysqli_query($conn, $sql);
-?>
 
 <!DOCTYPE html>
 <html lang="th">
@@ -49,7 +31,7 @@ $result = mysqli_query($conn, $sql);
             <a href="login.php">เข้าสู่ระบบ</a>
         </div>
     </nav>
-</header>
+
 
 <!-- แบนเนอร์สไลด์ -->
 <div class="banner">
@@ -63,6 +45,7 @@ $result = mysqli_query($conn, $sql);
         <div class="swiper-button-prev"></div>
     </div>
 </div>
+</header>
 
 <div class="content">
     <h1>โปรแกรมหนัง</h1>
