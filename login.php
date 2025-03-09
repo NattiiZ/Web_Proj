@@ -22,7 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         if ($pass == $row['password']) { // ตรวจสอบรหัสผ่าน (เวอร์ชันง่าย)
             $_SESSION['Username'] = $user;
-            header("Location: showtime.php");
+            // หากมี URL ที่ต้องการไปต่อจากหน้า login
+            $redirect_url = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'index.php';
+            unset($_SESSION['redirect_url']); // ลบ URL ที่เก็บไว้แล้ว
+
+            header("Location: $redirect_url"); // กลับไปยังหน้าที่ผู้ใช้ต้องการ
             exit();
         } else {
             echo "<p style='color:red;'>รหัสผ่านไม่ถูกต้อง</p>";
@@ -48,5 +52,8 @@ $conn->close();
         รหัสผ่าน: <input type="password" name="Password" required><br>
         <input type="submit" value="Login">
     </form>
+
+    <!-- ปุ่มหรือลิงก์สำหรับลงทะเบียน -->
+    <p>ยังไม่มีบัญชีผู้ใช้? <a href="register.php">ลงทะเบียนที่นี่</a></p>
 </body>
 </html>
