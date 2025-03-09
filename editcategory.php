@@ -11,48 +11,51 @@ if (!$conn) {
 }
 
 // เพิ่มหมวดหมู่
+if (isset($_POST['add_category'])) {
     $category = $_POST['category_name'] ?? '';
     if ($category != '') {
         $sql = "INSERT INTO category (name) VALUES ('$category')";
         if ($conn->query($sql)) {
-            if ($_POST['add_category'] ?? '') {
-                echo "<script>alert('เพิ่มหมวดหมู่สำเร็จ');</script>";
-            } 
-        }else {
+            echo "<script>alert('เพิ่มหมวดหมู่สำเร็จ');</script>";
+        } else {
             echo "<script>alert('เกิดข้อผิดพลาดในการเพิ่มหมวดหมู่');</script>";
         }
     } else {
-        if ($_POST['add_category'] ?? '') 
-            echo "<script>alert('กรุณากรอกชื่อหมวดหมู่');</script>";
+        echo "<script>alert('กรุณากรอกชื่อหมวดหมู่');</script>";
     }
+}
 
+// แก้ไขหมวดหมู่
+if (isset($_POST['edit_category'])) {
+    $id = $_POST['edit_id'] ?? '';
+    $category = $_POST['edit_category_name'] ?? '';
+    if ($id != '' && $category != '') {
+        $sql = "UPDATE category SET name = '$category' WHERE category_id = '$id'";
+        if ($conn->query($sql)) {
+            echo "<script>alert('แก้ไขหมวดหมู่สำเร็จ');</script>";
+        } else {
+            echo "<script>alert('เกิดข้อผิดพลาดในการแก้ไขหมวดหมู่');</script>";
+        }
+    }
+}
 
-    
-    $sqltxt = "SELECT * FROM category ";
-    $result = mysqli_query($conn, $sqltxt);
+// ลบหมวดหมู่
+if (isset($_POST['delete_category'])) {
+    $id = $_POST['delete_id'] ?? '';
+    if ($id != '') {
+        $sql = "DELETE FROM category WHERE category_id = '$id'";
+        if ($conn->query($sql)) {
+            echo "<script>alert('ลบหมวดหมู่สำเร็จ');</script>";
+        } else {
+            echo "<script>alert('เกิดข้อผิดพลาดในการลบหมวดหมู่');</script>";
+        }
+    }
+}
 
-    $CATID = $_POST['add_category'] ?? '';
-    echo $CATID;
-    // if ($CATID != '') {
-    //     $sql = "UPDATE catagory SET  name = 'catid'  WHERE Country='Mexico'";
-    //     if ($conn->query($sql)) {
-    //         if ($_POST['add_category'] ?? '') {
-    //             echo "<script>alert('เพิ่มหมวดหมู่สำเร็จ');</script>";
-    //         } 
-    //     }else {
-    //         echo "<script>alert('เกิดข้อผิดพลาดในการเพิ่มหมวดหมู่');</script>";
-    //     }
-    // } else {
-    //     if ($_POST['add_category'] ?? '') 
-    //         echo "<script>alert('กรุณากรอกชื่อหมวดหมู่');</script>";
-    // }
-
-
-
-
-
+// ดึงข้อมูลหมวดหมู่
+$sqltxt = "SELECT * FROM category";
+$result = mysqli_query($conn, $sqltxt);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,98 +63,29 @@ if (!$conn) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการหมวดหมู่หนัง</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 80%;
-            background: white;
-            padding: 20px;
-            margin: 50px auto;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            transition: transform 0.3s ease-in-out;
-        }
-        .container:hover {
-            transform: scale(1.02);
-        }
-        h1 {
-            color: #333;
-            font-size: 24px;
-        }
-        .form-group {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .form-group input {
-            width: 48%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        input:focus {
-            border-color: #ff758c;
-            outline: none;
-            box-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: none;
-            font-size: 16px;
-            background: #ff758c;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: #ff5c75;
-        }
-        .success {
-            color: green;
-            font-weight: bold;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-        .category-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        .category-table th, .category-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        .category-table th {
-            background: #f2f2f2;
-        }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #ff9a9e, #fad0c4); text-align: center; margin: 0; padding: 0; }
+        .container { width: 80%; background: white; padding: 20px; margin: 50px auto; border-radius: 15px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
+        h1, h2 { color: #333; }
+        form { margin-bottom: 20px; }
+        input[type="text"] { width: 60%; padding: 10px; border: 2px solid #ff758c; border-radius: 5px; font-size: 16px; }
+        button { background: #ff758c; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #ff5c75; }
+        .category-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+        .category-table th, .category-table td { border: 1px solid #ddd; padding: 10px; }
+        .category-table th { background: #f2f2f2; }
+        .edit-form input[type="text"] { width: auto; padding: 5px; border: 1px solid #ccc; border-radius: 5px; }
+        .delete-btn { background: #ff4d4d; }
+        .delete-btn:hover { background: #e60000; }
     </style>
 </head>
-<div class="container">
+<body>
+    <div class="container">
         <h1>จัดการหมวดหมู่หนัง</h1>
-
-        <!-- ฟอร์มเพิ่มหมวดหมู่ -->
         <h2>เพิ่มหมวดหมู่</h2>
-        <form method="POST" class="form-group">
-            <th><input type="text" name="category_name" placeholder="ชื่อหมวดหมู่" required class="form-input"></th>
-            <button type="submit" name="add_category" class="form-button">เพิ่มหมวดหมู่</button>
-            
+        <form method="POST">
+            <input type="text" name="category_name" placeholder="ชื่อหมวดหมู่" required>
+            <button type="submit" name="add_category">เพิ่มหมวดหมู่</button>
         </form>
-
-        <!-- ตารางแสดงรายการหมวดหมู่ -->
         <h2>รายการหมวดหมู่</h2>
         <table class="category-table">
             <tr>
@@ -159,40 +93,25 @@ if (!$conn) {
                 <th>แก้ไข</th>
                 <th>ลบ</th>
             </tr>
-            <?php
-              while ($rs = mysqli_fetch_array($result)) {
-                echo "<tr>";
-                echo "<td>" . $rs['name'] . "</td>";
-                echo "<td><form class=\"edit-cat\" method=\"POST\">
-                        <input type=\"hiddend\" name=\"id\" value=\" " . $rs['category_id']. " \" >
-                        <input type=\"hiddend\" name = \"id \" >
-                        <button type=\"submit\" name=\"add_category\" class=\"editcat_btn\">แก้ไข</button>
-                    </td>";
-                echo "<td></td>";
-                echo "</tr>";
-
-            //     echo "<tr>";
-            //     echo "<td>" . $rs['name'] . "</td>";
-            //     echo "<td><button onclick='showEditForm(" . $rs['category_id'] . ", \"" . $rs['name'] . "\")'>แก้ไข</button></td>";
-            //     echo `<td><form class="edit-form" method="POST">
-            //             <input type="hiddend" name="`.$rs['category_id'].`"  ">
-            //             <button type="submit" name="delete_category" class="form-button">x</button>
-            //         </form></td>`;
-            //     echo "</tr>";
-             }
-            ?>
+            <?php while ($rs = mysqli_fetch_array($result)) { ?>
+                <tr>
+                    <td><?php echo $rs['name']; ?></td>
+                    <td>
+                        <form method="POST" class="edit-form">
+                            <input type="hidden" name="edit_id" value="<?php echo $rs['category_id']; ?>">
+                            <input type="text" name="edit_category_name" value="<?php echo $rs['name']; ?>" required>
+                            <button type="submit" name="edit_category">แก้ไข</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="delete_id" value="<?php echo $rs['category_id']; ?>">
+                            <button type="submit" name="delete_category" class="delete-btn" onclick="return confirm('คุณแน่ใจหรือไม่ที่จะลบหมวดหมู่นี้?');">ลบ</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php } ?>
         </table>
-
     </div>
-
-    <script>
-        function showEditForm(id, name) {
-            document.getElementById('editFormContainer').style.display = 'block';
-            document.getElementById('edit_id').value = id;
-            document.getElementById('edit_category_name').value = name;
-        }
-    </script>
 </body>
 </html>
-
-
