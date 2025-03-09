@@ -50,7 +50,7 @@ if (!$result) {
                     </div>
                 </div>
                 <?php if (isset($_SESSION['Username'])): ?>
-                    <a href="profile.php">ข้อมูลส่วนตัว</a>
+                    <a href="personal.php">ข้อมูลส่วนตัว</a>
                     <a href="logout.php">ออกจากระบบ</a>
                 <?php else: ?>
                     <a href="login.php">เข้าสู่ระบบ</a>
