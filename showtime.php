@@ -96,7 +96,7 @@ if (!$result) {
                         </a>
                     </p>
                     <p class="ticket">
-                        <a href="Ticket.php?id=<?= $row['movie_id'] ?>" class="button">TICKET | จองตั๋ว</a>
+                        <a href="ticket.php?id=<?= $row['movie_id'] ?>" class="button">TICKET | จองตั๋ว</a>
                     </p>
                 </div>
             <?php endwhile; ?>

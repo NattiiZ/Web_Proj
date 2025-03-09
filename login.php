@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // ถ้า role_id = 1 ให้ไปหน้า admin
             if ($row['role_id'] == 1) {
-                header("Location: admin.php");
+                header("Location: admin_dashboard.php");
             } else {
                 header("Location: index.php");
             }
