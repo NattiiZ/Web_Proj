@@ -1,21 +1,21 @@
 <?php
-// เชื่อมต่อฐานข้อมูล
-$servername = "localhost";
-$username = "root"; // เปลี่ยนเป็นของคุณ
+session_start();
+$hostname = "localhost";
+$username = "root";
 $password = "";
-$dbname = "movie_db";
+$dbname = "movie_ticket";
 
-// $conn = new mysqli($servername, $username, $password, $dbname);
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
+$conn = mysqli_connect($hostname, $username, $password, $dbname);
+if (!$conn) {
+    die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
+}
 
-// ดึงรายชื่อรอบฉายจากฐานข้อมูล
-// $showtimes = $conn->query("SELECT showtimes.id, movies.title, showtimes.show_date, showtimes.show_time 
-//                            FROM showtimes JOIN movies ON showtimes.movie_id = movies.id");
+$showtimes = $conn->query("SELECT showtimes.show_id, movies.name, showtimes.time 
+        FROM showtimes 
+        JOIN movies ON showtimes.movie_id = movies.movie_id");
 
 // ดึงรายชื่อผู้ใช้จากฐานข้อมูล
-// $users = $conn->query("SELECT * FROM users");
+ $users = $conn->query("SELECT * FROM users");
 
 // เพิ่มการจองตั๋ว
 if (isset($_POST['add_ticket'])) {
@@ -23,7 +23,7 @@ if (isset($_POST['add_ticket'])) {
     $showtime_id = $_POST['showtime_id'];
     $seat_number = $_POST['seat_number'];
 
-    $sql = "INSERT INTO tickets (user_id, showtime_id, seat_number) VALUES ('$user_id', '$showtime_id', '$seat_number')";
+    $sql = "INSERT INTO show (user_id, showtime_id, seat_number) VALUES ('$user_id', '$showtime_id', '$seat_number')";
     $conn->query($sql);
 }
 
@@ -117,13 +117,13 @@ if (isset($_GET['delete'])) {
         <select name="user_id" required>
             <option value="">เลือกผู้ใช้</option>
             <?php while ($row = $users->fetch_assoc()): ?>
-                <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                <option value="<?= $row['user_id'] ?>"><?= $row['name'] ?></option>
             <?php endwhile; ?>
         </select>
         <select name="showtime_id" required>
             <option value="">เลือกรอบฉาย</option>
             <?php while ($row = $showtimes->fetch_assoc()): ?>
-                <option value="<?= $row['id'] ?>"><?= $row['title'] ?> (<?= $row['show_date'] ?> <?= $row['show_time'] ?>)</option>
+                <option value="<?= $row['show_id'] ?>"><?= $row['time'] ?> </option>
             <?php endwhile; ?>
         </select>
         <input type="text" name="seat_number" placeholder="หมายเลขที่นั่ง" required>

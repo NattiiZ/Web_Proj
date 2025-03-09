@@ -1,14 +1,14 @@
 <?php
-// เชื่อมต่อฐานข้อมูล
-$servername = "localhost";
-$username = "root"; // เปลี่ยนเป็นของคุณ
+session_start();
+$hostname = "localhost";
+$username = "root";
 $password = "";
-$dbname = "movie_db";
+$dbname = "movie_ticket";
 
-// $conn = new mysqli($servername, $username, $password, $dbname);
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
+$conn = mysqli_connect($hostname, $username, $password, $dbname);
+if (!$conn) {
+    die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
+}
 
 // เพิ่มผู้ใช้
 if (isset($_POST['add_user'])) {
@@ -25,73 +25,132 @@ if (isset($_POST['edit_user'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
 
-    $sql = "UPDATE users SET name='$name', email='$email' WHERE id=$id";
+    $sql = "UPDATE users SET name='$name', email='$email' WHERE user_id=$id";
     $conn->query($sql);
 }
 
 // ลบผู้ใช้
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $sql = "DELETE FROM users WHERE id=$id";
+    $sql = "DELETE FROM users WHERE user_id=$id";
     $conn->query($sql);
 }
 
 // ดึงข้อมูลผู้ใช้ทั้งหมด
-// $users = $conn->query("SELECT * FROM users");
+$users = $conn->query("SELECT * FROM users");
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการผู้ใช้</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            text-align: center;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
         }
+
+        body {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
         table {
-            width: 60%;
+            width: 70%;
             margin: auto;
             border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
-        table, th, td {
-            border: 1px solid black;
-        }
+
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
+            border-bottom: 1px solid #ddd;
         }
+
+        th {
+            background: #ff4081;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #ffe5ec;
+        }
+
         form {
             display: flex;
             flex-direction: column;
-            width: 300px;
+            width: 320px;
             margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
+            padding: 25px;
             border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
+
         input, button {
-            margin: 5px 0;
-            padding: 10px;
+            margin: 10px 0;
+            padding: 12px;
+            border: 2px solid #ff4081;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
         }
+
+        input:focus {
+            border-color: #d81b60;
+            box-shadow: 0px 0px 10px rgba(216, 27, 96, 0.3);
+        }
+
         button {
-            background-color: green;
+            background-color: #ff4081;
             color: white;
-            border: none;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 5px 15px rgba(255, 64, 129, 0.3);
         }
+
         button:hover {
-            background-color: darkgreen;
+            background-color: #d81b60;
+            box-shadow: 0px 7px 20px rgba(216, 27, 96, 0.5);
         }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
         .edit-form {
-            background-color: #f9f9f9;
+            background: rgba(255, 255, 255, 0.8);
         }
+
         a {
             text-decoration: none;
-            color: red;
+            color: #ff4081;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: #d81b60;
         }
     </style>
 </head>
@@ -116,18 +175,18 @@ if (isset($_GET['delete'])) {
             <th>แก้ไข</th>
             <th>ลบ</th>
         </tr>
-        <!-- <?php while ($row = $users->fetch_assoc()): ?> -->
+        <?php while ($row = $users->fetch_assoc()): ?>
             <tr>
-                <td><?= $row['id'] ?></td>
+                <td><?= $row['user_id'] ?></td>
                 <td><?= $row['name'] ?></td>
                 <td><?= $row['email'] ?></td>
                 <td>
-                    <button onclick="showEditForm('<?= $row['id'] ?>', '<?= $row['name'] ?>', '<?= $row['email'] ?>')">
+                    <button onclick="showEditForm('<?= $row['user_id'] ?>', '<?= $row['name'] ?>', '<?= $row['email'] ?>')">
                         ✏ แก้ไข
                     </button>
                 </td>
                 <td>
-                    <a href="?delete=<?= $row['id'] ?>" onclick="return confirm('ยืนยันการลบ?');">🗑 ลบ</a>
+                    <a href="?delete=<?= $row['user_id'] ?>" onclick="return confirm('ยืนยันการลบ?');">🗑 ลบ</a>
                 </td>
             </tr>
         <?php endwhile; ?>
