@@ -113,7 +113,7 @@ $result = mysqli_query($conn, $sql);
                 </p>
                 <p class='showtime'>ฉายเวลา: <?= htmlspecialchars($row['showtime']) ?></p>
                 <p class="ticket">
-                    <a href="Ticket.php?id=<?= $row['id'] ?>" class="button">TICKET | จองตั๋ว</a>
+                    <a href="ticket.php?id=<?= $row['id'] ?>" class="button">TICKET | จองตั๋ว</a>
                 </p>
             </div>
         <?php endwhile; ?>

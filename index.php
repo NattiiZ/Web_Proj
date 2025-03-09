@@ -1,5 +1,5 @@
-<?php
 
+<?php
 session_start();
 // เชื่อมต่อฐานข้อมูล
 $hostname = "localhost";
@@ -14,8 +14,8 @@ if (!$conn) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
 }
 
-// ดึงข้อมูลหนัง
-$sql = 'SELECT movie_id, name, image, status_id FROM movies';
+// ดึงข้อมูลหนัง เรียงลำดับหนังที่เป็น "Coming Soon" ไว้ข้างบน
+$sql = 'SELECT movie_id, name, image, status_id FROM movies ORDER BY status_id DESC';
 $result = mysqli_query($conn, $sql);
 
 // ตรวจสอบข้อผิดพลาด
@@ -38,7 +38,7 @@ if (!$result) {
     <header>
         <nav>
             <a href="index.php" class="logo">
-                <img src="photo/Malai_Cineplex.jpg" alt="logo">
+                <img src="photo/Malai_Cineplex.png" alt="logo">
             </a>
             <div class="nav-links">
                 <a href="index.php">หน้าแรก</a>
@@ -65,7 +65,7 @@ if (!$result) {
                         <div class="swiper-slide">
                             <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
                                 <img src="uploads/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>">
-                                <?php if ($row['status'] == 3): ?>
+                                <?php if ($row['status_id'] == 3): ?>
                                     <div class="coming-soon">Coming Soon</div>
                                 <?php endif; ?>
                             </a>
@@ -98,7 +98,11 @@ if (!$result) {
                         </a>
                     </p>
                     <p class="ticket">
-                        <a href="Ticket.php?id=<?= $row['movie_id'] ?>" class="button">TICKET | จองตั๋ว</a>
+                        <?php if ($row['status_id'] == 3): ?>
+                            <a href="#" class="button coming-soon-btn">Coming Soon</a>
+                        <?php else: ?>
+                            <a href="ticket.php?id=<?= $row['movie_id'] ?>" class="button">TICKET | จองตั๋ว</a>
+                        <?php endif; ?>
                     </p>
                 </div>
             <?php endwhile; ?>
