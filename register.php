@@ -30,16 +30,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        echo "<p style='color:red;'>ชื่อผู้ใช้นี้มีอยู่แล้ว กรุณาใช้ชื่ออื่น</p>";
+        $error = "ชื่อผู้ใช้นี้มีอยู่แล้ว กรุณาใช้ชื่ออื่น";
     } else {
         // บันทึกข้อมูลลงฐานข้อมูล
         $stmt = $conn->prepare("INSERT INTO users (username, password, name, email) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $username, $hashed_password, $name, $email);
 
         if ($stmt->execute()) {
-            echo "<p style='color:green;'>สมัครสมาชิกสำเร็จ! <a href='login.php'>เข้าสู่ระบบ</a></p>";
+            $success = "สมัครสมาชิกสำเร็จ! <a href='login.php'>เข้าสู่ระบบ</a>";
         } else {
-            echo "<p style='color:red;'>เกิดข้อผิดพลาด: " . $stmt->error . "</p>";
+            $error = "เกิดข้อผิดพลาด: " . $stmt->error;
         }
     }
 
@@ -50,60 +50,154 @@ mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>สมัครสมาชิก</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            flex-direction: column;
         }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 320px;
+
+        .register-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
             text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            width: 350px;
         }
-        input[type="text"], input[type="email"], input[type="password"] {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        h2 {
+            color: #ff4081;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
-        input[type="submit"] {
-            background-color: #007bff;
+
+        .input-group {
+            margin: 15px 0;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            padding-left: 40px;
+            border: 2px solid #ff4081;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #d81b60;
+            box-shadow: 0px 0px 10px rgba(216, 27, 96, 0.3);
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff4081;
+        }
+
+        .btn {
+            background: #ff4081;
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 12px;
             width: 100%;
-            font-size: 16px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 5px 15px rgba(255, 64, 129, 0.3);
         }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
+
+        .btn:hover {
+            background: #d81b60;
+            box-shadow: 0px 7px 20px rgba(216, 27, 96, 0.5);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Register</h1>
-    <form action="register.php" method="post"> 
-        <p><input type="text" name="name" placeholder="Name" required></p>
-        <p><input type="email" name="email" placeholder="Email" required></p>
-        <p><input type="text" name="username" placeholder="Username" required></p>
-        <p><input type="password" name="password" placeholder="Password" required></p>
-        <input type="submit" value="สมัครสมาชิก">
-    </form>
+
+    <div class="register-container">
+        <h2>REGISTER</h2>
+        <form method="post">
+            <div class="input-group">
+                <i>👤</i>
+                <input type="text" name="name" placeholder="Name" required>
+            </div>
+            <div class="input-group">
+                <i>📧</i>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <i>👤</i>
+                <input type="text" name="username" placeholder="User" required>
+            </div>
+            <div class="input-group">
+                <i>🔒</i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn">REGISTER</button>
+        </form>
+
+        <?php if (isset($error)) { ?>
+            <p class="message error"><?php echo $error; ?></p>
+        <?php } ?>
+
+        <?php if (isset($success)) { ?>
+            <p class="message success"><?php echo $success; ?></p>
+        <?php } ?>
+    </div>
+
 </body>
 </html>

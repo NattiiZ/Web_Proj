@@ -25,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: showtime.php");
             exit();
         } else {
-            echo "<p style='color:red;'>รหัสผ่านไม่ถูกต้อง</p>";
+            $error = "รหัสผ่านไม่ถูกต้อง";
         }
     } else {
-        echo "<p style='color:red;'>ไม่พบชื่อผู้ใช้</p>";
+        $error = "ไม่พบชื่อผู้ใช้";
     }
 }
 
@@ -39,14 +39,130 @@ $conn->close();
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            color: #ff4081;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin: 15px 0;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            padding-left: 40px;
+            border: 2px solid #ff4081;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #d81b60;
+            box-shadow: 0px 0px 10px rgba(216, 27, 96, 0.3);
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff4081;
+        }
+
+        .btn {
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 5px 15px rgba(255, 64, 129, 0.3);
+        }
+
+        .btn:hover {
+            background: #d81b60;
+            box-shadow: 0px 7px 20px rgba(216, 27, 96, 0.5);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>เข้าสู่ระบบ</h2>
-    <form method="post">
-        ชื่อผู้ใช้: <input type="text" name="Username" required><br>
-        รหัสผ่าน: <input type="password" name="Password" required><br>
-        <input type="submit" value="Login">
-    </form>
+
+    <div class="login-container">
+        <h2>LOGIN(เข้าสู่ระบบ)</h2>
+        <form method="post">
+            <div class="input-group">
+                <i>👤</i>
+                <input type="text" name="Username" placeholder="ชื่อผู้ใช้" required>
+            </div>
+            <div class="input-group">
+                <i>🔒</i>
+                <input type="password" name="Password" placeholder="รหัสผ่าน" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <?php if (isset($error)) { ?>
+            <p class="error"><?php echo $error; ?></p>
+        <?php } ?>
+    </div>
+
 </body>
 </html>
