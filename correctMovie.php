@@ -62,9 +62,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_movie'])) {
     // ตรวจสอบว่า category_Id มีอยู่ในตาราง category หรือไม่
     $category_check = mysqli_query($conn, "SELECT * FROM category WHERE category_id = '$category_Id'");
     if (mysqli_num_rows($category_check) > 0) {
-        $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details', image='$image' WHERE $primary_key='$movie_id'";
+        // ถ้ามีการอัปโหลดรูปใหม่ให้แทนที่
+        if (!empty($_FILES['image']['name'])) {
+            $image = uploadImage($_FILES['image']);
+            $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details', image='$image' WHERE $primary_key='$movie_id'";
+        } else {
+            $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details' WHERE $primary_key='$movie_id'";
+        }
+
         if (mysqli_query($conn, $sql)) {
             echo "<p style='color: green;'>✅ แก้ไขหนังสำเร็จ!</p>";
+            
         } else {
             echo "<p style='color: red;'>❌ ไม่สามารถแก้ไขหนังได้: " . mysqli_error($conn) . "</p>";
         }
