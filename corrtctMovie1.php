@@ -31,7 +31,7 @@ $primary_key = $has_id_column ? 'id' : 'movie_id';
 function uploadImage($file) {
     $target_dir = "uploads/";
     $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
-    $newFileName = uniqid() . "." . $imageFileType;
+    $newFileName = basename($file["name"]);
     $target_file = $target_dir . $newFileName;
 
     // ตรวจสอบว่าเป็นไฟล์รูปภาพจริงหรือไม่
