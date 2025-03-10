@@ -66,8 +66,158 @@ if (isset($_GET['showtime_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แก้ไขหรือลบรอบฉาย</title>
     <style>
-        /* Your existing CSS code */
-    </style>
+    /* ตั้งค่าพื้นฐาน */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7f6;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #2d3b55;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        margin: 0;
+    }
+
+    main {
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-size: 1.5em;
+        color: #333;
+        margin-top: 40px;
+    }
+
+    label {
+        font-size: 1.1em;
+        margin: 10px 0;
+        display: block;
+        color: #555;
+    }
+
+    select, input[type="date"], input[type="time"], button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1em;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    select, input[type="date"], input[type="time"] {
+        background-color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    select:focus, input[type="date"]:focus, input[type="time"]:focus {
+        border-color: #2d3b55;
+        outline: none;
+    }
+
+    button {
+        background-color: #2d3b55;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #3c4d70;
+    }
+
+    button:active {
+        background-color: #1c2d44;
+    }
+
+    .form-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    /* การตกแต่งสำหรับปุ่มลบ */
+    .delete-btn {
+        background-color: #ff4e4e;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete-btn:hover {
+        background-color: #ff3232;
+    }
+
+    .delete-btn:active {
+        background-color: #e62424;
+    }
+
+    /* ให้ dropdown ดูดีขึ้น */
+    select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"><path fill="none" stroke="%23333" stroke-width="2" d="M1 1l4 4 4-4"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 12px;
+    }
+
+    /* เพิ่มการเคลื่อนไหวให้กับ select */
+    select:focus {
+        box-shadow: 0 0 8px rgba(45, 59, 85, 0.5);
+    }
+
+    /* ฟอร์มที่แสดงข้อมูล */
+    form {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    form input[type="hidden"] {
+        display: none;
+    }
+
+    form .form-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* ปรับแต่งการตั้งค่าของ dropdown และ input */
+    select, input[type="date"], input[type="time"] {
+        width: 48%;
+    }
+
+    /* ทำให้ปุ่มบันทึกกับปุ่มลบดูดีขึ้น */
+    .form-actions button {
+        width: 48%;
+    }
+
+</style>
+
     <script>
         // ฟังก์ชันดึงข้อมูลที่เกี่ยวข้องกับหนัง
         function fetchShowtimeDetails(movieId) {
