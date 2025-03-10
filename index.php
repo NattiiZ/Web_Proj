@@ -14,8 +14,8 @@ if (!$conn) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
 }
 
-// ดึงข้อมูลหนัง เรียงลำดับหนังที่เป็น "Coming Soon" ไว้ข้างบน
-$sql = 'SELECT movie_id, name, image, status_id FROM movies';
+// ดึงข้อมูลหนังที่ไม่เป็น Inactive เรียงลำดับหนังที่เป็น "Coming Soon" ไว้ข้างบน
+$sql = 'SELECT movie_id, name, image, status_id FROM movies WHERE status_id != 2';
 $result = mysqli_query($conn, $sql);
 
 // ตรวจสอบข้อผิดพลาด
