@@ -1,10 +1,10 @@
-<s?php
+<?php
 session_start();
 
-// เชื่อมต่อฐานข้อมูล
+ 
 $conn = new mysqli("localhost", "root", "", "movie_ticket");
 
-// ตรวจสอบการเชื่อมต่อ
+
 if ($conn->connect_error) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . $conn->connect_error);
 }
@@ -46,99 +46,119 @@ $loggedIn = isset($_SESSION['Username']);
     <title>รายละเอียดการจอง</title>
     <style>
     /* ตั้งค่าพื้นหลังและฟอนต์ */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #000;
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        color: #000;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
 
-/* กล่องข้อมูลภาพยนตร์ */
-.movie-info {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    text-align: left;
-    width: 50%;
-    border: 1px solid #ccc;
-}
+    /* กล่องข้อมูลภาพยนตร์ */
+    .movie-info {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        text-align: left;
+        width: 50%;
+        border: 1px solid #ccc;
+    }
 
-/* หัวข้อ */
-h1 {
-    color: #000;
-    margin-bottom: 20px;
-}
+    /* หัวข้อ */
+    h1 {
+        color: #000;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+    }
 
-/* ฟอร์ม */
-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    text-align: left;
-    width: 50%;
-    border: 1px solid #ccc;
-    margin-top: 20px;
-}
+    /* เพิ่มสไตล์ให้กับข้อความ "ชื่อภาพยนตร์" และ "ราคาตั๋ว" */
+    .movie-title,
+    .movie-price {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+        margin: 15px 0;
+    }
 
-/* ป้ายชื่อ */
-label {
-    font-weight: bold;
-    display: block;
-    margin: 10px 0 5px;
-    color: #000;
-}
+    .movie-title {
+        font-size: 2em;
+        color: #2d3b55;
+    }
 
-/* ช่องป้อนข้อมูล */
-input, select, button {
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    width: 100%;
-    background-color: #fff;
-    color: #000;
-}
+    .movie-price {
+        color: #e74c3c;
+    }
 
-/* ปุ่มกด */
-button {
-    background-color: #000;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin-top: 10px;
-}
+    /* ฟอร์ม */
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        text-align: left;
+        width: 50%;
+        border: 1px solid #ccc;
+        margin-top: 20px;
+    }
 
-button:hover {
-    background-color: #333;
-}
+    /* ป้ายชื่อ */
+    label {
+        font-weight: bold;
+        display: block;
+        margin: 10px 0 5px;
+        color: #000;
+    }
 
-/* ลิงก์ */
-a {
-    text-decoration: none;
-    color: #000;
-    font-weight: bold;
-}
+    /* ช่องป้อนข้อมูล */
+    input, select, button {
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        width: 100%;
+        background-color: #fff;
+        color: #000;
+    }
 
-a:hover {
-    text-decoration: underline;
-}
+    /* ปุ่มกด */
+    button {
+        background-color: #000;
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        margin-top: 10px;
+    }
 
-/* ทำให้กล่องแสดงผลอยู่ตรงกลาง */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-    </style>
+    button:hover {
+        background-color: #333;
+    }
+
+    /* ลิงก์ */
+    a {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* ทำให้กล่องแสดงผลอยู่ตรงกลาง */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
 
 </head>
 
