@@ -307,8 +307,7 @@ mysqli_close($conn);
 </body>
 
 <style>
-
-    /* คอนเทนเนอร์ของทั้งสองฟอร์ม */
+/* คอนเทนเนอร์ของทั้งสองฟอร์ม */
 .form-container {
     display: flex;
     justify-content: space-between;
@@ -316,24 +315,25 @@ mysqli_close($conn);
     width: 80%;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: #f0f0f0;
     border-radius: 8px;
 }
 
 /* กล่องฟอร์ม */
 .form-box {
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     margin-bottom: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 48%;
+    border: 1px solid #ccc;
 }
 
 /* ปรับหัวเรื่อง */
 h1 {
     text-align: center;
-    color: #333;
+    color: #000;
     margin-bottom: 20px;
 }
 
@@ -350,11 +350,14 @@ input, select, button {
     border: 1px solid #ccc;
     font-size: 16px;
     width: 100%;
+    background-color: #fff;
+    color: #000;
 }
 
 label {
     font-weight: bold;
     margin-bottom: 5px;
+    color: #000;
 }
 
 input[type="text"], input[type="number"], select {
@@ -362,16 +365,17 @@ input[type="text"], input[type="number"], select {
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #000;
+    color: #fff;
     font-weight: bold;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #333;
+    color: #fff;
 }
 
 /* ช่องกรอกข้อมูลระหว่างซ้ายขวา */
@@ -399,7 +403,7 @@ button {
 
 .back-button a {
     text-decoration: none;
-    color: #007BFF;
+    color: #000;
     font-size: 16px;
     font-weight: bold;
 }
