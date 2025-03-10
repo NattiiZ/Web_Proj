@@ -19,12 +19,20 @@ while ($row = mysqli_fetch_assoc($category_result)) {
     $categories[] = $row;
 }
 
-// ดึงข้อมูลสถานะจากตาราง status
-$status_query = "SELECT * FROM status";
+// ดึงข้อมูลสถานะจากตาราง status โดยไม่รวมสถานะที่เป็น "Inactive" สำหรับการเพิ่มหนัง
+$status_query = "SELECT * FROM status WHERE name != 'Inactive'";
 $status_result = mysqli_query($conn, $status_query);
 $statuses = [];
 while ($row = mysqli_fetch_assoc($status_result)) {
     $statuses[] = $row;
+}
+
+// ดึงข้อมูลสถานะจากตาราง status โดยไม่รวมสถานะที่เป็น "Incoming" สำหรับการแก้ไขหนัง
+$status_query_edit = "SELECT * FROM status WHERE name != 'Incoming'";
+$status_result_edit = mysqli_query($conn, $status_query_edit);
+$statuses_edit = [];
+while ($row = mysqli_fetch_assoc($status_result_edit)) {
+    $statuses_edit[] = $row;
 }
 
 // ดึงข้อมูลหนังทั้งหมดสำหรับเลือกใน dropdown
@@ -70,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_movie'])) {
     $director = mysqli_real_escape_string($conn, $_POST['director']);
     $category_Id = mysqli_real_escape_string($conn, $_POST['category_Id']);
     $status_id = mysqli_real_escape_string($conn, $_POST['status_id']);
-    
+
     // อัปโหลดรูปภาพ
     if (!empty($_FILES['image']['name'])) {
         $image = uploadImage($_FILES['image']);
@@ -101,27 +109,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_movie'])) {
     $category_Id = mysqli_real_escape_string($conn, $_POST['category_Id']);
     $status_id = mysqli_real_escape_string($conn, $_POST['status_id']);
 
-    // ตรวจสอบว่า category_Id มีอยู่ในตาราง category หรือไม่
-    $category_check = mysqli_query($conn, "SELECT * FROM category WHERE category_id = '$category_Id'");
-    if (mysqli_num_rows($category_check) > 0) {
-        if (!empty($_FILES['image']['name'])) {
-            $image = uploadImage($_FILES['image']);
-            $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details', image='$image', status_id='$status_id' WHERE movie_id='$movie_id'";
-        } else {
-            $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details', status_id='$status_id' WHERE movie_id='$movie_id'";
-        }
-        if (mysqli_query($conn, $sql)) {
-            echo "<p class='green'>✅ แก้ไขหนังสำเร็จ!</p>";
-        } else {
-            echo "<p class='red'>❌ ไม่สามารถแก้ไขหนังได้: " . mysqli_error($conn) . "</p>";
-        }
+    if (!empty($_FILES['image']['name'])) {
+        $image = uploadImage($_FILES['image']);
+        $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details', image='$image', status_id='$status_id' WHERE movie_id='$movie_id'";
     } else {
-        echo "<p class='red'>❌ หมวดหมู่ที่เลือกไม่มีอยู่ในระบบ!</p>";
+        $sql = "UPDATE movies SET name='$nameM', price='$price', director='$director', category_Id='$category_Id', description='$details', status_id='$status_id' WHERE movie_id='$movie_id'";
+    }
+
+    if (mysqli_query($conn, $sql)) {
+        echo "<p class='green'>✅ แก้ไขหนังสำเร็จ!</p>";
+    } else {
+        echo "<p class='red'>❌ ไม่สามารถแก้ไขหนังได้: " . mysqli_error($conn) . "</p>";
     }
 }
 
 mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="th">
@@ -181,14 +185,18 @@ mysqli_close($conn);
                     <label for="category_Id">หมวดหมู่</label>
                     <select name="category_Id" id="category_Id" required>
                         <option value="">เลือกหมวดหมู่</option>
-                        <!-- เติมหมวดหมู่ที่ดึงมาจากฐานข้อมูล -->
+                        <?php foreach ($categories as $category) { ?>
+                            <option value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="status_id">สถานะ</label>
                     <select name="status_id" id="status_id" required>
                         <option value="">เลือกสถานะ</option>
-                        <!-- เติมสถานะที่ดึงมาจากฐานข้อมูล -->
+                        <?php foreach ($statuses as $status) { ?>
+                            <option value="<?php echo $status['status_id']; ?>"><?php echo $status['name']; ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group full-width">
@@ -200,6 +208,7 @@ mysqli_close($conn);
                 </div>
             </div>
         </form>
+
     </div>
 
     <div class="form-box edit-movie">
@@ -208,37 +217,47 @@ mysqli_close($conn);
             <!-- ซ้าย -->
             <div class="left-side">
                 <div class="form-group">
-                    <label for="movie_id">รหัสหนัง</label>
-                    <input type="number" name="movie_id" id="movie_id" placeholder="รหัสหนัง" required>
+                    <label for="movie_id">ชื่อหนัง</label>
+                    <select name="movie_id" id="movie_id" onchange="loadMovieDetails(this.value)" required>
+                        <option value="">เลือกหนัง</option>
+                        <?php foreach ($movies as $movie) { ?>
+                            <option value="<?php echo $movie['movie_id']; ?>"><?php echo $movie['name']; ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
+
                 <div class="form-group">
                     <label for="name">ชื่อหนัง</label>
-                    <input type="text" name="name" id="name" placeholder="ชื่อหนัง" required>
+                    <input type="text" name="name" id="name-edit" placeholder="ชื่อหนัง" required>
                 </div>
                 <div class="form-group">
                     <label for="details">รายละเอียด</label>
-                    <input type="text" name="details" id="details" placeholder="รายละเอียด" required>
+                    <input type="text" name="details" id="details-edit" placeholder="รายละเอียด" required>
                 </div>
                 <div class="form-group">
                     <label for="price">ราคา</label>
-                    <input type="number" name="price" id="price" placeholder="ราคา" required>
+                    <input type="number" name="price" id="price-edit" placeholder="ราคา" required>
                 </div>
             </div>
 
             <!-- ขวา -->
             <div class="right-side">
                 <div class="form-group">
-                    <label for="category_Id">หมวดหมู่</label>
-                    <select name="category_Id" id="category_Id" required>
+                    <label for="category_Id-edit">หมวดหมู่</label>
+                    <select name="category_Id" id="category_Id-edit" required>
                         <option value="">เลือกหมวดหมู่</option>
-                        <!-- เติมหมวดหมู่ที่ดึงมาจากฐานข้อมูล -->
+                        <?php foreach ($categories as $category) { ?>
+                            <option value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="status_id">สถานะ</label>
-                    <select name="status_id" id="status_id">
+                    <label for="status_id-edit">สถานะ</label>
+                    <select name="status_id" id="status_id-edit" required>
                         <option value="">เลือกสถานะ</option>
-                        <!-- เติมสถานะที่ดึงมาจากฐานข้อมูล -->
+                        <?php foreach ($statuses_edit as $status) { ?>
+                            <option value="<?php echo $status['status_id']; ?>"><?php echo $status['name']; ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group full-width">
@@ -250,6 +269,7 @@ mysqli_close($conn);
                 </div>
             </div>
         </form>
+
     </div>
 
     <!-- ปุ่มกลับ -->
@@ -257,6 +277,27 @@ mysqli_close($conn);
         <a href="javascript:history.back()">กลับ</a>
     </div>
 </div>
+
+
+
+<script>
+    // ฟังก์ชันดึงข้อมูลหนังมาแสดงในช่อง input
+    function loadMovieDetails(movieId) {
+        if (movieId == "") return;
+
+        const movies = <?php echo json_encode($movies); ?>;
+        const movie = movies.find(m => m.movie_id == movieId);
+        if (movie) {
+            document.getElementById('name-edit').value = movie.name;
+            document.getElementById('details-edit').value = movie.description;
+            document.getElementById('price-edit').value = movie.price;
+            document.getElementById('director-edit').value = movie.director;
+            document.getElementById('category_Id-edit').value = movie.category_Id;
+            document.getElementById('status_id-edit').value = movie.status_id;
+        }
+    }
+</script>
+
 
 
 </body>
