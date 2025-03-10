@@ -112,6 +112,10 @@ $result = mysqli_query($conn, $sqltxt);
                 </tr>
             <?php } ?>
         </table>
+        
+        <div class="back-button">
+            <a href="javascript:history.back()">กลับ</a>
+        </div>
     </div>
 </body>
 </html>

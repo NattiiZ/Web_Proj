@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // เชื่อมต่อฐานข้อมูล
 $conn = new mysqli("localhost", "root", "", "movie_ticket");
 
@@ -32,6 +34,9 @@ $showtime_stmt = $conn->prepare("SELECT show_id, time, movie_id, seats FROM show
 $showtime_stmt->bind_param("i", $movie_id);
 $showtime_stmt->execute();
 $showtime_result = $showtime_stmt->get_result(); // ดึงผลลัพธ์ของ showtimes query
+
+// ตรวจสอบว่าผู้ใช้ล็อกอินอยู่หรือไม่
+$loggedIn = isset($_SESSION['Username']);
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +52,7 @@ $showtime_result = $showtime_stmt->get_result(); // ดึงผลลัพธ�
     <p>ราคาตั๋ว: <?= number_format($movie['price'], 2) ?> บาท</p>
 
     <!-- แบบฟอร์มการจอง -->
-    <form method="POST" action="confirm.php">
+    <form method="POST" action="confirm.php" onsubmit="return checkLogin();">
         <input type="hidden" name="movie_id" value="<?= (int)$movie['movie_id'] ?>">
 
         <!-- ดรอปดาวน์เลือกเวลา -->
@@ -56,7 +61,7 @@ $showtime_result = $showtime_stmt->get_result(); // ดึงผลลัพธ�
             <option value="">เลือกเวลา</option>
             <?php while ($showtime = $showtime_result->fetch_assoc()): ?>
                 <option value="<?= htmlspecialchars($showtime['show_id']) ?>">
-                    <?= htmlspecialchars($showtime['time']) ?> <!-- แสดงเวลา -->
+                    <?= htmlspecialchars($showtime['time']) ?>
                 </option>
             <?php endwhile; ?>
         </select>
@@ -67,6 +72,19 @@ $showtime_result = $showtime_stmt->get_result(); // ดึงผลลัพธ�
         <input type="number" name="tickets" id="tickets" value="1" min="1" required>
         <button type="submit">ยืนยันการจอง</button>
     </form>
+
+    <script>
+        // กำหนดตัวแปรจาก PHP เพื่อตรวจสอบสถานะล็อกอิน
+        var isLoggedIn = <?php echo $loggedIn ? 'true' : 'false'; ?>;
+        function checkLogin(){
+            if (!isLoggedIn) {
+                // Redirect ไปที่หน้า login พร้อมส่งพารามิเตอร์ redirect_url กลับมาหน้าเดิม
+                window.location.href = "login.php?redirect_url=" + encodeURIComponent(window.location.href);
+                return false; // ป้องกันการส่งฟอร์ม
+            }
+            return true;
+        }
+    </script>
 </body>
 
 </html>
