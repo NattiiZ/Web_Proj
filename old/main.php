@@ -68,7 +68,8 @@ $result = mysqli_query($conn, $sql);
 <header>
     <nav>
         <a href="index.php" class="logo">
-            <img src="photo/Malai_Cineplex.jpg" alt="logo">
+            <img src="photo/Malai_Cineplex.png" alt="logo">
+
         </a>
         <div class="nav-links">
             <a href="index.php">หน้าแรก</a>

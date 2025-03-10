@@ -1,21 +1,3 @@
-<?php
-session_start();
-
-// ตรวจสอบว่า session มีข้อมูลและผู้ใช้เป็น admin หรือไม่
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 1) {
-    // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
-    header("Location: index.php");
-    exit();
-}
-
-// ล็อกเอ้าท์ (ออกจากระบบ)
-if (isset($_GET['logout'])) {
-    session_destroy();  // ลบข้อมูลทั้งหมดใน session
-    header("Location: index.php");  // เปลี่ยนเส้นทางไปที่หน้า login
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,7 +80,7 @@ if (isset($_GET['logout'])) {
         <a href="editshowtime.php">แก้ไขรอบ</a>
         <a href="edituser.php">แก้ไขuser</a>
         <a href="editticket.php">แก้ไขorder</a>
-        <a href="?logout" class="logout-btn">ล็อกเอ้าท์</a>
+        <a href="logout.php" class="logout-btn">ล็อกเอ้าท์</a>
     </div>
 
 </body>

@@ -1,14 +1,14 @@
 <?php
-session_start();
+session_start(); // เริ่มต้น session ก่อนทุกอย่าง
 
+// ถ้าผู้ใช้ล็อกอินอยู่แล้ว ให้เปลี่ยนเส้นทางไปหน้าที่เหมาะสม
 if (isset($_SESSION['Username'])) {
-    // ถ้าเป็น admin ให้ไปหน้า admin_dashboard.php
     if ($_SESSION['role_id'] == 1) {
         header("Location: admin_dashboard.php");
     } else {
         header("Location: index.php");
     }
-    exit(); // หยุดการทำงานของ script ต่อไป
+    exit();
 }
 
 // เชื่อมต่อฐานข้อมูล
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['Username'] = $user;
             $_SESSION['role_id'] = $row['role_id']; // เก็บ role_id ไว้ใน session
 
-            // ถ้า role_id = 1 ให้ไปหน้า admin
+            // ถ้า role_id = 1 ให้ไปหน้า admin_dashboard.php
             if ($row['role_id'] == 1) {
                 header("Location: admin_dashboard.php");
             } else {
@@ -52,7 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn->close();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -61,14 +60,12 @@ $conn->close();
     <title>เข้าสู่ระบบ</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
         }
-
         body {
             background: linear-gradient(to right, #ff758c, #ff7eb3);
             display: flex;
@@ -76,7 +73,6 @@ $conn->close();
             align-items: center;
             height: 100vh;
         }
-
         .login-container {
             background: rgba(255, 255, 255, 0.9);
             padding: 40px;
@@ -85,18 +81,15 @@ $conn->close();
             text-align: center;
             animation: fadeIn 1s ease-in-out;
         }
-
         h2 {
             color: #ff4081;
             margin-bottom: 20px;
             font-weight: 600;
         }
-
         .input-group {
             margin: 15px 0;
             position: relative;
         }
-
         input {
             width: 100%;
             padding: 12px;
@@ -107,12 +100,10 @@ $conn->close();
             font-size: 16px;
             transition: 0.3s;
         }
-
         input:focus {
             border-color: #d81b60;
             box-shadow: 0px 0px 10px rgba(216, 27, 96, 0.3);
         }
-
         .input-group i {
             position: absolute;
             left: 15px;
@@ -120,7 +111,6 @@ $conn->close();
             transform: translateY(-50%);
             color: #ff4081;
         }
-
         .btn {
             background: #ff4081;
             color: white;
@@ -134,26 +124,21 @@ $conn->close();
             transition: 0.3s;
             box-shadow: 0px 5px 15px rgba(255, 64, 129, 0.3);
         }
-
         .btn:hover {
             background: #d81b60;
             box-shadow: 0px 7px 20px rgba(216, 27, 96, 0.5);
         }
-
         .btn:active {
             transform: scale(0.95);
         }
-
         .error {
             color: red;
             margin-top: 10px;
         }
-
         .register-btn {
             background: #4caf50;
             margin-top: 10px;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;

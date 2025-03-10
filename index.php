@@ -1,16 +1,5 @@
 <?php
-session_start();
-// session_unset();  // ลบข้อมูลทั้งหมดใน session
-// session_destroy();  
 
-// if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
-//     // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
-//     header("Location: admin_dashboard.php");
-//     exit();
-// }
-// ?>
-
-<?php
 session_start();
 // เชื่อมต่อฐานข้อมูล
 $hostname = "localhost";
@@ -26,7 +15,7 @@ if (!$conn) {
 }
 
 // ดึงข้อมูลหนัง เรียงลำดับหนังที่เป็น "Coming Soon" ไว้ข้างบน
-$sql = 'SELECT movie_id, name, image, status_id FROM movies ORDER BY status_id DESC';
+$sql = 'SELECT movie_id, name, image, status_id FROM movies';
 $result = mysqli_query($conn, $sql);
 
 // ตรวจสอบข้อผิดพลาด
@@ -61,10 +50,10 @@ if (!$result) {
                     </div>
                 </div>
                 <?php if (isset($_SESSION['Username'])): ?>
-                    <a href="personal.php">ข้อมูลส่วนตัว</a>
-                    <a href="logout.php">ออกจากระบบ</a>
+                <a href="personal.php">ข้อมูลส่วนตัว</a>
+                <a href="logout.php">ออกจากระบบ</a>
                 <?php else: ?>
-                    <a href="login.php">เข้าสู่ระบบ</a>
+                <a href="login.php">เข้าสู่ระบบ</a>
                 <?php endif; ?>
             </div>
         </nav>
@@ -73,14 +62,14 @@ if (!$result) {
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <?php while ($row = mysqli_fetch_array($result)): ?>
-                        <div class="swiper-slide">
-                            <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
-                                <img src="uploads/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>">
-                                <?php if ($row['status_id'] == 3): ?>
-                                    <div class="coming-soon">Coming Soon</div>
-                                <?php endif; ?>
-                            </a>
-                        </div>
+                    <div class="swiper-slide">
+                        <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
+                            <img src="uploads/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+                            <?php if ($row['status_id'] == 3): ?>
+                            <div class="coming-soon">Coming Soon</div>
+                            <?php endif; ?>
+                        </a>
+                    </div>
                     <?php endwhile; ?>
                 </div>
                 <div class="swiper-button-next"></div>
@@ -96,26 +85,26 @@ if (!$result) {
             // Move result pointer back to the beginning for displaying the list of movies below the banner
             mysqli_data_seek($result, 0);
             while ($row = mysqli_fetch_array($result)): ?>
-                <div class="movie">
+            <div class="movie">
+                <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
+                    <img src="uploads/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+                    <?php if ($row['status_id'] == 3): ?>
+                    <!-- <div class="coming-soon">Coming Soon</div> -->
+                    <?php endif; ?>
+                </a>
+                <p>
                     <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
-                        <img src="uploads/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>">
-                        <?php if ($row['status_id'] == 3): ?>
-                            <div class="coming-soon">Coming Soon</div>
-                        <?php endif; ?>
+                        <?= htmlspecialchars($row['name']) ?>
                     </a>
-                    <p>
-                        <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
-                            <?= htmlspecialchars($row['name']) ?>
-                        </a>
-                    </p>
-                    <p class="ticket">
-                        <?php if ($row['status_id'] == 3): ?>
-                            <a href="#" class="button coming-soon-btn">Coming Soon</a>
-                        <?php else: ?>
-                            <a href="ticket.php?id=<?= $row['movie_id'] ?>" class="button">TICKET | จองตั๋ว</a>
-                        <?php endif; ?>
-                    </p>
-                </div>
+                </p>
+                <p class="ticket">
+                    <?php if ($row['status_id'] == 3): ?>
+                    <a class="button">Coming</a>
+                    <?php else: ?>
+                    <a href="ticket.php?id=<?= $row['movie_id'] ?>" class="button">TICKET</a>
+                    <?php endif; ?>
+                </p>
+            </div>
             <?php endwhile; ?>
         </div>
     </div>
@@ -126,21 +115,21 @@ if (!$result) {
 
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
-        var swiper = new Swiper('.swiper-container', {
-            loop: true,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            }
-        });
+    var swiper = new Swiper('.swiper-container', {
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        }
+    });
     </script>
 
 </body>

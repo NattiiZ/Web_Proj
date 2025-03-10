@@ -1,21 +1,4 @@
 <?php
-session_start();
-
-// ตรวจสอบว่า session มีข้อมูลและผู้ใช้เป็น admin หรือไม่
-// if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
-//     // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
-//     header("Location: admin_dashboard.php");
-//     exit();
-// }
-
-// // ตรวจสอบการล็อกอิน
-// if (!isset($_SESSION['Username'])) {
-//     // ถ้ายังไม่ได้ล็อกอิน ส่งกลับไปที่หน้า login
-//     $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI']; // เก็บ URL ปัจจุบันใน session
-//     header("Location: login.php");
-//     exit();
-// }
-
 // เชื่อมต่อฐานข้อมูล
 $conn = new mysqli("localhost", "root", "", "movie_ticket");
 
@@ -48,9 +31,7 @@ $movie = $result->fetch_assoc();
 $showtime_stmt = $conn->prepare("SELECT show_id, time, movie_id, seats FROM showtimes WHERE movie_id = ?");
 $showtime_stmt->bind_param("i", $movie_id);
 $showtime_stmt->execute();
-
-// ผูกผลลัพธ์
-$showtime_stmt->bind_result($showtime_id, $time, $movie_id, $seats);
+$showtime_result = $showtime_stmt->get_result(); // ดึงผลลัพธ์ของ showtimes query
 ?>
 
 <!DOCTYPE html>
@@ -73,9 +54,9 @@ $showtime_stmt->bind_result($showtime_id, $time, $movie_id, $seats);
         <label for="showtime">เลือกเวลารอบฉาย:</label>
         <select name="showtime" id="showtime" required>
             <option value="">เลือกเวลา</option>
-            <?php while ($showtime_stmt->fetch()): ?>
-                <option value="<?= htmlspecialchars($showtime_id) ?>">
-                    <?= htmlspecialchars($time) ?>
+            <?php while ($showtime = $showtime_result->fetch_assoc()): ?>
+                <option value="<?= htmlspecialchars($showtime['show_id']) ?>">
+                    <?= htmlspecialchars($showtime['time']) ?> <!-- แสดงเวลา -->
                 </option>
             <?php endwhile; ?>
         </select>
@@ -92,5 +73,5 @@ $showtime_stmt->bind_result($showtime_id, $time, $movie_id, $seats);
 
 <?php 
 // ปิดการเชื่อมต่อฐานข้อมูล
-mysqli_close($conn); 
+$conn->close(); 
 ?>

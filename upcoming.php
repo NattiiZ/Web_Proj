@@ -1,15 +1,4 @@
 <?php
-
-session_start();
-
-// ตรวจสอบว่า session มีข้อมูลและผู้ใช้เป็น admin หรือไม่
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
-    // หากไม่ใช่ admin ให้เปลี่ยนเส้นทางไปที่หน้า login หรือหน้าที่ไม่สามารถเข้าถึงได้
-    header("Location: admin_dashboard.php");
-    exit();
-}
-
-
 // เชื่อมต่อฐานข้อมูล
 $hostname = "localhost";
 $username = "root";
@@ -48,7 +37,7 @@ if (!$result) {
     <header>
         <nav>
             <a href="index.php" class="logo">
-                <img src="photo/Malai_Cineplex.jpg" alt="logo">
+                <img src="photo/Malai_Cineplex.png" alt="logo">
             </a>
             <div class="nav-links">
                 <a href="index.php">หน้าแรก</a>
@@ -103,6 +92,9 @@ if (!$result) {
                         <a href="movie_detail.php?id=<?= $row['movie_id'] ?>">
                             <?= htmlspecialchars($row['name']) ?>
                         </a>
+                    </p>
+                    <p class="ticket">
+                        <a href="ticket.php?id=<?= $row['movie_id'] ?>" class="button">Coming</a>
                     </p>
                 </div>
             <?php endwhile; ?>
