@@ -25,17 +25,14 @@ $total_price = $ticket_price * $tickets;
 // สมมุติว่าในฐานข้อมูลของคุณมีตาราง orders ที่มีคอลัมน์
 // order_id (auto increment), movie_id, show_id, tickets, total_price, booking_date (default CURRENT_TIMESTAMP)
 
-$sql = "INSERT INTO orders (user_id, movie_id, ticketQty, totalPrice) VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO orders (user_id, movie_id, show_id, ticketQty, totalPrice) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("เกิดข้อผิดพลาดในการเตรียมคำสั่ง SQL: " . $conn->error);
 }
 
-$stmt->bind_param("iiii", $user_id, $movie_id, $tickets, $total_price); // ใช้ 'i' สำหรับทั้ง 4 ค่าที่เป็น integer
-
-
-
-$stmt->bind_param("iiii", $user_id, $movie_id, $tickets, $total_price);
+// Bind parameters: 'i' สำหรับ integer, 'd' สำหรับ double (ราคาตั๋ว)
+$stmt->bind_param("iiiii", $user_id, $movie_id, $show_id, $tickets, $total_price); // ใช้ 'i' สำหรับทั้ง 4 ค่าที่เป็น integer
 
 if ($stmt->execute()) {
     // การจองสำเร็จ สามารถเปลี่ยนเส้นทางไปยังหน้าสำหรับแสดงผลสำเร็จได้ เช่น booking_success.php

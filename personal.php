@@ -17,11 +17,15 @@ if (!$conn) {
 $sql = "SELECT * FROM users WHERE username = '" . $_SESSION['Username'] . "'"; 
 $result = $conn->query($sql);
 
-// ดึงประวัติการจองตั๋วของผู้ใช้ (แสดงแค่ ชื่อหนัง และ จำนวนตั๋ว)
-$sql_booking = "SELECT movies.name AS movie_name, orders.ticketQty AS tickets
+// ดึงประวัติการจองตั๋วของผู้ใช้ (แสดงแค่ ชื่อหนัง จำนวนตั๋ว และเวลา)
+$sql_booking = "SELECT movies.name AS movie_name, orders.ticketQty AS tickets, 
+                CONCAT(DATE_FORMAT(showtimes.date, '%d-%m-%Y'), ' ', DATE_FORMAT(showtimes.time, '%H:%i:%s')) AS order_time
                 FROM orders 
                 JOIN movies ON orders.movie_id = movies.movie_id 
+                JOIN showtimes ON orders.show_id = showtimes.show_id
                 WHERE orders.user_id = (SELECT user_id FROM users WHERE username = '" . $_SESSION['Username'] . "')";
+
+
 $booking_result = $conn->query($sql_booking);
 ?>
 
@@ -109,6 +113,26 @@ $booking_result = $conn->query($sql_booking);
             background-color: #d32f2f;
             cursor: pointer;
         }
+
+        .edit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background-color: #388e3c;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -144,6 +168,7 @@ $booking_result = $conn->query($sql_booking);
                 <thead>
                     <tr>
                         <th>ชื่อภาพยนตร์</th>
+                        <th>วันที่ / เวลา</th>
                         <th>จำนวนตั๋ว</th>
                     </tr>
                 </thead>
@@ -151,6 +176,7 @@ $booking_result = $conn->query($sql_booking);
                     <?php while ($booking = $booking_result->fetch_assoc()) : ?>
                         <tr>
                             <td><?php echo $booking['movie_name']; ?></td>
+                            <td><?php echo $booking['order_time']; ?></td>
                             <td><?php echo $booking['tickets']; ?></td>
                         </tr>
                     <?php endwhile; ?>
@@ -160,8 +186,12 @@ $booking_result = $conn->query($sql_booking);
             <p>ยังไม่มีการจองตั๋ว</p>
         <?php endif; ?>
 
+        <button onclick="window.history.back()" class="edit-btn">กลับ</button>
         <!-- ปุ่มออกจากระบบ -->
         <a href="logout.php" class="logout-btn">ออกจากระบบ</a>
+
+        <!-- ปุ่มแก้ไขข้อมูล -->
+        <a href="edit_profile.php" class="edit-btn">แก้ไขข้อมูล</a>
     </div>
 </body>
 </html>

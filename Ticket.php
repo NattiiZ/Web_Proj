@@ -30,7 +30,7 @@ if ($result->num_rows === 0) {
 $movie = $result->fetch_assoc();
 
 // ดึงข้อมูลรอบฉายจากตาราง showtimes
-$showtime_stmt = $conn->prepare("SELECT show_id, time, movie_id, seats FROM showtimes WHERE movie_id = ?");
+$showtime_stmt = $conn->prepare("SELECT show_id, time, date, movie_id, seats FROM showtimes WHERE movie_id = ?");
 $showtime_stmt->bind_param("i", $movie_id);
 $showtime_stmt->execute();
 $showtime_result = $showtime_stmt->get_result(); // ดึงผลลัพธ์ของ showtimes query
@@ -57,13 +57,13 @@ $loggedIn = isset($_SESSION['Username']);
         <input type="hidden" name="user_id" value="<?= isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0 ?>"> <!-- ส่ง user_id ไปด้วย -->
         <input type="hidden" name="ticket_price" value="<?= number_format($movie['price'], 2) ?>"> <!-- ส่งราคาตั๋วไปด้วย -->
 
-        <!-- ดรอปดาวน์เลือกเวลา -->
+        <!-- ดรอปดาวน์เลือกเวลาและวัน -->
         <label for="showtime">เลือกเวลารอบฉาย:</label>
         <select name="showtime" id="showtime" required>
             <option value="">เลือกเวลา</option>
             <?php while ($showtime = $showtime_result->fetch_assoc()): ?>
-                <option value="<?= htmlspecialchars($showtime['show_id']) ?>">
-                    <?= htmlspecialchars($showtime['time']) ?>
+                <option value="<?= htmlspecialchars($showtime['show_id']) ?>" data-time="<?= htmlspecialchars($showtime['time']) ?>" data-date="<?= htmlspecialchars($showtime['date']) ?>">
+                    <?= htmlspecialchars($showtime['time']) ?> (<?= htmlspecialchars($showtime['date']) ?>)
                 </option>
             <?php endwhile; ?>
         </select>
@@ -75,17 +75,28 @@ $loggedIn = isset($_SESSION['Username']);
         <button type="submit">ยืนยันการจอง</button>
     </form>
 
-
-
     <script>
         // กำหนดตัวแปรจาก PHP เพื่อตรวจสอบสถานะล็อกอิน
         var isLoggedIn = <?php echo $loggedIn ? 'true' : 'false'; ?>;
+
         function checkLogin(){
             if (!isLoggedIn) {
                 // Redirect ไปที่หน้า login พร้อมส่งพารามิเตอร์ redirect_url กลับมาหน้าเดิม
                 window.location.href = "login.php?redirect_url=" + encodeURIComponent(window.location.href);
                 return false; // ป้องกันการส่งฟอร์ม
             }
+
+            // ส่งค่า show_id ไปยัง confirm.php
+            var selectedOption = document.getElementById('showtime').selectedOptions[0];
+            var show_id = selectedOption.value;  // รับค่า show_id จาก option ที่ถูกเลือก
+
+            // เพิ่ม show_id ในฟอร์ม
+            var showtimeInput = document.createElement('input');
+            showtimeInput.type = 'hidden';
+            showtimeInput.name = 'show_id';  // ตั้งชื่อให้ตรงกับที่ใช้ใน confirm.php
+            showtimeInput.value = show_id;
+            document.forms[0].appendChild(showtimeInput);
+
             return true;
         }
     </script>
