@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($pass == $row['password']) { // ตรวจสอบรหัสผ่าน (เวอร์ชันง่าย)
             $_SESSION['Username'] = $user;
             $_SESSION['role_id'] = $row['role_id']; // เก็บ role_id ไว้ใน session
+            $_SESSION['user_id'] = $row['user_id']; // บันทึก user_id ไว้ใน session
 
             // ถ้า role_id = 1 ให้ไปหน้า admin_dashboard.php
             if ($row['role_id'] == 1) {

@@ -76,10 +76,10 @@
     
     <div class="correct">
         <a href="editMovie.php">แก้ไขหนัง</a>
-        <a href="editcategory.php">แก้ไขหมวดหมู่</a>
-        <a href="editshowtime.php">แก้ไขรอบ</a>
-        <a href="edituser.php">แก้ไขuser</a>
-        <a href="editticket.php">แก้ไขorder</a>
+        <a href="editCategory.php">แก้ไขหมวดหมู่</a>
+        <a href="editShowtime.php">แก้ไขรอบ</a>
+        <a href="editUser.php">แก้ไขuser</a>
+        <a href="editTicket.php">แก้ไขorder</a>
         <a href="logout.php" class="logout-btn">ล็อกเอ้าท์</a>
     </div>
 

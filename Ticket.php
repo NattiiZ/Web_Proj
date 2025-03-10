@@ -54,6 +54,8 @@ $loggedIn = isset($_SESSION['Username']);
     <!-- แบบฟอร์มการจอง -->
     <form method="POST" action="confirm.php" onsubmit="return checkLogin();">
         <input type="hidden" name="movie_id" value="<?= (int)$movie['movie_id'] ?>">
+        <input type="hidden" name="user_id" value="<?= isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0 ?>"> <!-- ส่ง user_id ไปด้วย -->
+        <input type="hidden" name="ticket_price" value="<?= number_format($movie['price'], 2) ?>"> <!-- ส่งราคาตั๋วไปด้วย -->
 
         <!-- ดรอปดาวน์เลือกเวลา -->
         <label for="showtime">เลือกเวลารอบฉาย:</label>
@@ -72,6 +74,8 @@ $loggedIn = isset($_SESSION['Username']);
         <input type="number" name="tickets" id="tickets" value="1" min="1" required>
         <button type="submit">ยืนยันการจอง</button>
     </form>
+
+
 
     <script>
         // กำหนดตัวแปรจาก PHP เพื่อตรวจสอบสถานะล็อกอิน

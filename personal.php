@@ -13,9 +13,16 @@ if (!$conn) {
     die("เชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
 }
 
-// ดึงข้อมูลจากฐานข้อมูล
-$sql = "SELECT * FROM users WHERE username = '" . $_SESSION['Username'] . "'"; // คำสั่ง SQL ที่ถูกต้อง
+// ดึงข้อมูลผู้ใช้จากฐานข้อมูล
+$sql = "SELECT * FROM users WHERE username = '" . $_SESSION['Username'] . "'"; 
 $result = $conn->query($sql);
+
+// ดึงประวัติการจองตั๋วของผู้ใช้ (แสดงแค่ ชื่อหนัง และ จำนวนตั๋ว)
+$sql_booking = "SELECT movies.name AS movie_name, orders.ticketQty AS tickets
+                FROM orders 
+                JOIN movies ON orders.movie_id = movies.movie_id 
+                WHERE orders.user_id = (SELECT user_id FROM users WHERE username = '" . $_SESSION['Username'] . "')";
+$booking_result = $conn->query($sql_booking);
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +75,7 @@ $result = $conn->query($sql);
         }
 
         th {
-            background-color:rgb(75, 129, 236);
+            background-color: rgb(75, 129, 236);
             color: white;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -81,21 +88,6 @@ $result = $conn->query($sql);
         tbody tr:hover {
             background-color: #e4f2e4;
             transition: background-color 0.3s ease;
-        }
-
-        tbody tr td {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        tbody tr td:hover {
-            transform: scale(1.05);
-            color: #4CAF50;
-        }
-
-        p {
-            text-align: center;
-            color: #888;
-            font-size: 18px;
         }
 
         .logout-btn {
@@ -128,7 +120,7 @@ $result = $conn->query($sql);
                     <tr>
                         <th>ชื่อ</th>
                         <th>อีเมล์</th>
-                        <th>username</th>
+                        <th>Username</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,6 +136,30 @@ $result = $conn->query($sql);
         <?php else : ?>
             <p>ไม่พบข้อมูล</p>
         <?php endif; ?>
+
+        <!-- เพิ่มประวัติการจอง -->
+        <h2>ประวัติการจองตั๋ว</h2>
+        <?php if ($booking_result->num_rows > 0) : ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ชื่อภาพยนตร์</th>
+                        <th>จำนวนตั๋ว</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($booking = $booking_result->fetch_assoc()) : ?>
+                        <tr>
+                            <td><?php echo $booking['movie_name']; ?></td>
+                            <td><?php echo $booking['tickets']; ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <p>ยังไม่มีการจองตั๋ว</p>
+        <?php endif; ?>
+
         <!-- ปุ่มออกจากระบบ -->
         <a href="logout.php" class="logout-btn">ออกจากระบบ</a>
     </div>
