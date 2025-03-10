@@ -144,8 +144,8 @@ $user = $result->fetch_assoc();
             <input type="submit" value="บันทึกการเปลี่ยนแปลง">
         </form>
 
+        <button onclick="window.history.back()" class="edit-btn">กลับ</button>
         <!-- ปุ่มออกจากระบบ -->
-        <a href="logout.php" class="logout-btn">ออกจากระบบ</a>
     </div>
 </body>
 </html>
