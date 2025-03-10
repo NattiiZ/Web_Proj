@@ -146,7 +146,7 @@ mysqli_close($conn);
                 document.getElementById('name').value = movie.name;
                 document.getElementById('details').value = movie.description;
                 document.getElementById('price').value = movie.price;
-                document.getElementById('director').value = movie.director;
+                document.getElementById('director-edit').value = movie.director;
                 document.getElementById('category_Id').value = movie.category_Id;
                 document.getElementById('status_id').value = movie.status_id;
             }
@@ -233,6 +233,10 @@ mysqli_close($conn);
                 <div class="form-group">
                     <label for="details">รายละเอียด</label>
                     <input type="text" name="details" id="details-edit" placeholder="รายละเอียด" required>
+                </div>
+                <div class="form-group">
+                    <label for="director-edit">ผู้กำกับ</label>
+                    <input type="text" name="director" id="director-edit" placeholder="ผู้กำกับ" required>
                 </div>
                 <div class="form-group">
                     <label for="price">ราคา</label>
